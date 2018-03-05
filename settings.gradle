@@ -1,0 +1,6 @@
+rootProject.name = 'blogsite'
+include 'blog-api'
+include 'blog-dao'
+include 'blog-util'
+include 'blog-base'
+

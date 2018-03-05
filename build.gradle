@@ -1,0 +1,104 @@
+
+buildscript {
+    ext {
+        lombok="1.16.12"
+        springBootVersion = '2.0.0.RELEASE'
+
+    }
+    repositories {
+        mavenLocal()
+        maven { url 'http://repo.spring.io/snapshot' }
+        maven { url 'http://repo.spring.io/milestone' }
+
+        /* maven { url "http://repo1.maven.org/maven2/" }
+         maven { url "http://repo.spring.io/release/" }
+         maven { url "http://repo.spring.io/release/" }
+         */
+
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    }
+    dependencies {
+
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE'
+    }
+}
+
+allprojects {
+    group 'cyf.blog'
+    version '1.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: "org.springframework.boot"
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    def defaultEncoding = 'UTF-8'
+    tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
+
+
+
+    springBoot {
+//        executable = true
+    }
+
+
+    repositories {
+        maven { url 'http://repo.spring.io/snapshot' }
+        maven { url 'http://repo.spring.io/milestone' }
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    }
+
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+        }
+
+    }
+
+    dependencies {
+        compileOnly "org.projectlombok:lombok:${lombok}"
+
+        compile "org.springframework.boot:spring-boot-starter-aop"
+        compile "org.springframework.boot:spring-boot-starter-web"
+
+        compile "org.springframework.boot:spring-boot-configuration-processor"
+        compile  "com.google.guava:guava:20.0"
+        compile "commons-io:commons-io:2.5"
+        compile "org.apache.commons:commons-lang3:3.5"
+
+        testCompile "org.springframework.boot:spring-boot-starter-test"
+
+        compile 'org.springframework.boot:spring-boot-starter-data-redis'
+
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.0.RELEASE'
+
+        compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+        compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
+
+        compile "org.springframework.boot:spring-boot-devtools"
+
+        compile group: 'com.alibaba', name: 'fastjson', version: '1.2.23'
+    }
+
+    compileJava.dependsOn(processResources)
+}
+
+//工程依赖配置
+project(':blog-api') {
+    dependencies {
+        compile project(':blog-dao')
+        compile project(':blog-util')
+        compile project(':blog-base')
+    }
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = "4.4"
+}
+

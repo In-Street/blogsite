@@ -1,0 +1,8 @@
+   ____   _       ____    _____
+  |  _ \ | |     / __ \  / ____|
+  | |_) || |    | |  | || |  __
+  |  _ < | |    | |  | || | |_ |
+  | |_) || |____| |__| || |__| |
+  |____/ |______|\____/  \_____|
+
+${AnsiColor.GREEN}:: blog-api :: ${application.formatted-version}${AnsiColor.DEFAULT}

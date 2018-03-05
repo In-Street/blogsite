@@ -1,0 +1,31 @@
+server:
+  port: 8090
+  context-path: /
+  maxPostSize: 0
+spring:
+  application.name: api
+  profiles.active: dev
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+
+
+#而当我们需要使用CGLIB来实现AOP的时候，需要配置 spring.aop.proxy-target-class=true ，不然默认使用的是标准Java的实现
+spring.aop.proxy-target-class: true
+
+#JACKSON
+spring.jackson:
+  date-format: "yyyy-MM-dd HH:mm:ss"
+  default-property-inclusion: NON_NULL
+  time-zone: GMT+8
+
+---
+spring.profiles: dev
+spring.profiles.include: dao
+
+
+
+
+
+
+
