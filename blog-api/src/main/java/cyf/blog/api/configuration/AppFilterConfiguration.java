@@ -6,7 +6,6 @@ import cyf.blog.base.enums.RespStatusEnum;
 import cyf.blog.base.model.Header;
 import cyf.blog.base.model.LocalData;
 import cyf.blog.base.model.Response;
-import cyf.blog.dao.model.User;
 import cyf.blog.util.FastJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -71,8 +70,8 @@ public class AppFilterConfiguration {
                     if(StringUtils.isNotBlank(userJson)){
                         LocalData.USER_JSON.set(userJson);
                         log.info("用户信息已设置,{}", userJson);
-                        User dsmUser = FastJsonUtils.toBean(userJson, User.class);
-                        header.setUid(dsmUser.getId());
+                        /*User dsmUser = FastJsonUtils.toBean(userJson, User.class);
+                        header.setUid(dsmUser.getId());*/
                     }
                 }
 
