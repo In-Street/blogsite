@@ -4,12 +4,25 @@ import cyf.blog.dao.model.Contents;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author Cheng Yufei
  * @create 2018-03-07 14:59
  **/
 @Component
 public class Common {
+
+
+    /**
+     * 网站链接
+     *
+     * @return
+     */
+    public static String site_url() {
+        return site_url("");
+    }
 
     /**
      * 返回文章链接地址
@@ -64,4 +77,17 @@ public class Common {
             return defalutValue;
         }
     }
+
+    /**
+     * 显示文章缩略图，顺序为：文章第一张图 -> 随机获取
+     *
+     * @return
+     */
+    public static String show_thumb(Contents contents) {
+        int cid = contents.getCid();
+        int size = cid % 20;
+        size = size == 0 ? 1 : size;
+        return "/user/img/rand/" + size + ".jpg";
+    }
+
 }

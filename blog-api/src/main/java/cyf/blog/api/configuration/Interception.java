@@ -1,8 +1,12 @@
 package cyf.blog.api.configuration;
 
+import cyf.blog.base.common.Common;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Cheng Yufei
  * @create 2018-03-07 15:47
  **/
+@Component
 public class Interception implements HandlerInterceptor{
+
 
     /**
      *调用处理程序之前
@@ -36,7 +42,7 @@ public class Interception implements HandlerInterceptor{
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
+        request.setAttribute("commons", new Common());
 
     }
 
