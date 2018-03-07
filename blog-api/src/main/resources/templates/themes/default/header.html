@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-transform"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <meta name="keywords" th:content="${keywords ?: commons.site_option('site_keywords')}"/>
-    <meta name="description" th:content="${description ?:commons.site_option('site_description')}"/>
+    <!-- <meta name="keywords" th:content="${keywords ?: commons.site_option('site_keywords')}"/>
+     <meta name="description" th:content="${description ?:commons.site_option('site_description')}"/>-->
     <link rel="shortcut icon" th:href="@{/user/img/favicon.png}"/>
     <link rel="apple-touch-icon" th:href="@{/user/img/apple-touch-icon.png}"/>
     <title><th:block th:text="${title ?: '首页'}+' - '+${commons.site_option('site_title','My Blog')}"></th:block></title>

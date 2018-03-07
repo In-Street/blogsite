@@ -1,4 +1,4 @@
-package cyf.blog.base;
+package cyf.blog.base.common;
 
 /**
  * @since 1.0

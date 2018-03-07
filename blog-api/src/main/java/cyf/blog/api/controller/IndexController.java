@@ -2,7 +2,7 @@ package cyf.blog.api.controller;
 
 import com.github.pagehelper.PageInfo;
 import cyf.blog.api.service.ContentService;
-import cyf.blog.base.Constants;
+import cyf.blog.base.common.Constants;
 import cyf.blog.dao.model.Contents;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class IndexController extends BaseController{
      * @return
      */
     @GetMapping(value = "/")
-    public String index() {
-        return THEME + "/index";
+    public String index(HttpServletRequest request) {
+        return index(request, 1, 12);
     }
 
     /**
@@ -44,7 +44,7 @@ public class IndexController extends BaseController{
      * @param limit     每页大小
      * @return 主页
      */
-    @GetMapping(value = "page/{pageIndex}")
+    @GetMapping(value = "/page/{pageIndex}")
     public String index(HttpServletRequest request, @PathVariable int pageIndex, @RequestParam(value = "limit", defaultValue = "12") int limit) {
 
         pageIndex = pageIndex < 0 || pageIndex > Constants.MAX_PAGE ? 1 : pageIndex;

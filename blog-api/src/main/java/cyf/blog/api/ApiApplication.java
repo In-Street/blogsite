@@ -17,7 +17,7 @@ public class ApiApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(ApiApplication.class)
                 //类名重复bean的处理
-                .beanNameGenerator(new DefaultBeanNameGenerator())
+                //.beanNameGenerator(new DefaultBeanNameGenerator())
                 .run(args);
     }
 }

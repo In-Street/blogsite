@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--<div th:replace="themes/default/header::header(null,null)"></div>-->
+<div th:replace="themes/default/header::header(null,null)"></div>
 <body>
 <div class="main-content index-page clearfix">
     <div class="post-lists">
@@ -17,12 +17,12 @@
                         <div class="item-title"><a th:href="${commons.permalink(article)}"
                                                    th:text="${article.title}"></a>
                         </div>
-                        <div class="item-meta clearfix">
+                       <!-- <div class="item-meta clearfix">
                             <div th:class="'item-meta-ico '+ ${commons.show_icon(article.cid)}"
                                  th:style="'background: url('+@{/user/img/bg-ico.png}+');no-repeat;background-size: 40px auto;' "></div>
                             <div class="item-meta-cat" th:utext="${commons.show_categories(article.categories)}">
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>

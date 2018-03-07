@@ -27,7 +27,7 @@ public class ContentService {
 
     public PageInfo getContents(int pageNum,int pageSize) {
         ContentsExample example = new ContentsExample();
-        example.setOrderByClause("created desc,id");
+        example.setOrderByClause("created desc,cid");
         example.createCriteria().andStatusEqualTo(ContentStatus.publish.getCode()).andTypeEqualTo(ContentType.post.getCode());
         PageHelper.startPage(pageNum, pageSize);
         List<Contents> contents = contentsMapper.selectByExample(example);

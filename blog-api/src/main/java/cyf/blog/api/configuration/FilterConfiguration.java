@@ -1,7 +1,7 @@
 package cyf.blog.api.configuration;
 
 
-import cyf.blog.base.Constants;
+import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.RespStatusEnum;
 import cyf.blog.base.model.Header;
 import cyf.blog.base.model.LocalData;
@@ -31,7 +31,7 @@ import java.lang.reflect.Field;
  */
 @Configuration
 @Slf4j
-public class AppFilterConfiguration {
+public class FilterConfiguration {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
