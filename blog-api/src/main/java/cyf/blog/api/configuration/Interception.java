@@ -1,7 +1,6 @@
 package cyf.blog.api.configuration;
 
 import cyf.blog.base.common.Common;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,6 +43,7 @@ public class Interception implements HandlerInterceptor{
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+       //页面中可直接${commons.site_option('site_title','My Blog')}
         request.setAttribute("commons", commons);
 
     }

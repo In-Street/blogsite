@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
+ * 通用配置
  * @author Cheng Yufei
  * @create 2018-03-07 14:59
  **/
@@ -12,14 +13,6 @@ import org.springframework.stereotype.Component;
 public class Common {
 
 
-    /**
-     * 网站链接
-     *
-     * @return
-     */
-    public static String site_url() {
-        return site_url("");
-    }
 
     /**
      * 返回文章链接地址
@@ -66,13 +59,10 @@ public class Common {
         if (StringUtils.isBlank(key)) {
             return "";
         }
+        //系统设置的map存储
 //        String str = WebConst.initConfig.get(key);
         String str = "";
-        if (StringUtils.isNotBlank(str)) {
-            return str;
-        } else {
-            return defalutValue;
-        }
+        return StringUtils.isNotBlank(str) ? str : defalutValue;
     }
 
     /**

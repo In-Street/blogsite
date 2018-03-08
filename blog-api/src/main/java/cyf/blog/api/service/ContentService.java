@@ -2,7 +2,6 @@ package cyf.blog.api.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import cyf.blog.base.dto.PageInDto;
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
 import cyf.blog.dao.mapper.ContentsMapper;
