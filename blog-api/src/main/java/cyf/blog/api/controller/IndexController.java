@@ -24,7 +24,6 @@ public class IndexController extends BaseController{
     @Autowired
     private ContentService contentService;
 
-    private static String THEME = "themes/default";
 
     /**
      * 首页

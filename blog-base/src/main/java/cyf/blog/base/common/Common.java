@@ -4,6 +4,9 @@ import cyf.blog.dao.model.Contents;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 通用配置
  * @author Cheng Yufei
@@ -12,7 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class Common {
 
-
+    public static String site_title() {
+        return site_option("site_title");
+    }
 
     /**
      * 返回文章链接地址
@@ -76,5 +81,18 @@ public class Common {
         size = size == 0 ? 1 : size;
         return "/user/img/rand/" + size + ".jpg";
     }
-
+    /**
+     * 获取社交的链接地址
+     *
+     * @return
+     */
+    public static Map<String, String> social() {
+        final String prefix = "social_";
+        Map<String, String> map = new HashMap<>();
+     /*   map.put("weibo", WebConst.initConfig.get(prefix + "weibo"));
+        map.put("zhihu", WebConst.initConfig.get(prefix + "zhihu"));
+        map.put("github", WebConst.initConfig.get(prefix + "github"));
+        map.put("twitter", WebConst.initConfig.get(prefix + "twitter"));*/
+        return map;
+    }
 }
