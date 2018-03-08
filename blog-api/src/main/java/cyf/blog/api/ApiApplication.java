@@ -6,18 +6,18 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
  * boot入口
- *
+ *  添加base包的扫描是为了base里的类加@Component后可在其他类中注解使用，否则为null
  */
 //@EnableCaching
 @SpringBootApplication(
-        scanBasePackages = {"cyf.blog.api", "cyf.blog.dao"}
+        scanBasePackages = {"cyf.blog.api", "cyf.blog.dao","cyf.blog.base"}
 )
 public class ApiApplication {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(ApiApplication.class)
                 //类名重复bean的处理
-                //.beanNameGenerator(new DefaultBeanNameGenerator())
+                .beanNameGenerator(new DefaultBeanNameGenerator())
                 .run(args);
     }
 }

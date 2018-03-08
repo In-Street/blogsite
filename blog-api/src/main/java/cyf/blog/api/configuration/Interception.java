@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 public class Interception implements HandlerInterceptor{
 
 
+    @Resource
+    private Common commons;
     /**
      *调用处理程序之前
      * @param request
@@ -42,7 +44,7 @@ public class Interception implements HandlerInterceptor{
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        request.setAttribute("commons", new Common());
+        request.setAttribute("commons", commons);
 
     }
 
