@@ -26,6 +26,7 @@ public class Common {
      * @return
      */
     public static String permalink(Contents contents) {
+        System.out.println();
         return permalink(contents.getCid(), contents.getSlug());
     }
 
