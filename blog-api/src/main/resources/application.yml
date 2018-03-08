@@ -14,10 +14,8 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
-  mvc:
-    static-path-pattern: /**
-  resources:
-    static-locations: classpath:/templates/,classpath:/static/
+
+
 
 
 #而当我们需要使用CGLIB来实现AOP的时候，需要配置 spring.aop.proxy-target-class=true ，不然默认使用的是标准Java的实现
