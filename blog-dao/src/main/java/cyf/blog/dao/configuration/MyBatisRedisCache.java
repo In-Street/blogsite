@@ -47,7 +47,7 @@ public class MyBatisRedisCache implements Cache {
     @Override
     public void putObject(Object key, Object value) {
         String k = formatKey(key.toString());
-        log.debug("redis-cache-putObject.key={},value={}", k, value);
+//        log.debug("redis-cache-putObject.key={},value={}", k, value);
         HashOperations<String, String, String> hashOperations = RedisConfiguration.redisTemplate.opsForHash();
 
         String v = Base64Utils.encodeToString(SerializationUtils.serialize((Serializable) value));
@@ -58,7 +58,7 @@ public class MyBatisRedisCache implements Cache {
     @Override
     public Object getObject(Object key) {
         String k = formatKey(key.toString());
-        log.debug("redis-cache-getObject.key={}", k);
+//        log.debug("redis-cache-getObject.key={}", k);
         HashOperations<String, String, String> hashOperations = RedisConfiguration.redisTemplate.opsForHash();
         String value = hashOperations.get(id, k);
 
@@ -73,13 +73,13 @@ public class MyBatisRedisCache implements Cache {
         String k = formatKey(key.toString());
         HashOperations<String, String, String> hashOperations = RedisConfiguration.redisTemplate.opsForHash();
         Long sum = hashOperations.delete(id, k);
-        log.debug("redis-cache-removeObject,key={},sum={}", k, sum);
+//        log.debug("redis-cache-removeObject,key={},sum={}", k, sum);
         return sum;
     }
 
     @Override
     public void clear() {
-        log.debug("redis-cache-clear,id={}", id);
+//        log.debug("redis-cache-clear,id={}", id);
 //		log.debug("getSize={},id={}",getSize(),id);
         RedisConfiguration.redisTemplate.delete(id);
 //        log.debug("getSize={},id={}",getSize(),id);
