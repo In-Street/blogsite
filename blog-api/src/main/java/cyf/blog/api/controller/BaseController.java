@@ -24,4 +24,8 @@ public abstract class BaseController {
         request.setAttribute("title", title);
         return this;
     }
+
+    public String render_404() {
+        return "comm/error_404";
+    }
 }

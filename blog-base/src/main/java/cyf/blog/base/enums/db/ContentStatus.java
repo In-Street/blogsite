@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum ContentStatus {
 
     publish(1,"已发布"),
-
+    draft(2,"草稿")
     ;
 
     private Integer code;

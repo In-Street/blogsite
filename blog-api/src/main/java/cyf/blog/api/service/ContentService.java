@@ -33,4 +33,9 @@ public class ContentService {
         PageInfo<Contents> pageInfo = new PageInfo<>(contents);
         return pageInfo;
     }
+
+    public Contents getContentsById(Integer cid) {
+        Contents contents = contentsMapper.selectByPrimaryKey(cid);
+        return contents;
+    }
 }

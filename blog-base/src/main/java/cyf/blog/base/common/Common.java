@@ -1,6 +1,7 @@
 package cyf.blog.base.common;
 
 import cyf.blog.dao.model.Contents;
+import cyf.blog.util.TextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -110,6 +111,38 @@ public class Common {
         StringBuffer sbuf = new StringBuffer();
         for (String c : arr) {
             sbuf.append("<a href=\"/category/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
+        }
+        return sbuf.toString();
+    }
+
+    /**
+     * 显示文章内容，转换markdown为html
+     *
+     * @param value
+     * @return
+     */
+    public static String article(String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.replace("<!--more-->", "\r\n");
+            return TextUtil.mdToHtml(value);
+        }
+        return "";
+    }
+
+    /**
+     * 文章页显示标签
+     *
+     * @param tags
+     * @return
+     */
+    public static String show_tags(String tags) throws UnsupportedEncodingException {
+        if (StringUtils.isBlank(tags)) {
+            return "";
+        }
+        String[] arr = tags.split(",");
+        StringBuffer sbuf = new StringBuffer();
+        for (String c : arr) {
+            sbuf.append("<a href=\"/tag/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
         }
         return sbuf.toString();
     }

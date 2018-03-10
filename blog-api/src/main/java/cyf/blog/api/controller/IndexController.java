@@ -3,6 +3,7 @@ package cyf.blog.api.controller;
 import com.github.pagehelper.PageInfo;
 import cyf.blog.api.service.ContentService;
 import cyf.blog.base.common.Constants;
+import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.dao.model.Contents;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * 首页
@@ -55,5 +57,25 @@ public class IndexController extends BaseController{
         return render("index");
     }
 
+    /**
+     * 文章页
+     *
+     * @param request 请求
+     * @param cid     文章主键
+     * @return
+     */
+    @GetMapping(value = {"article/{cid}", "article/{cid}.html"})
+    public String getArticle(HttpServletRequest request, @PathVariable String cid) {
+        Contents contents = contentService.getContentsById(Integer.valueOf(cid));
+        if (null == contents || Objects.equals(ContentStatus.draft.getCode(),contents.getStatus())) {
+            return this.render_404();
+        }
+        request.setAttribute("article", contents);
+        request.setAttribute("is_post", true);
+       /* completeArticle(request, contents);
+        updateArticleHit(contents.getCid(), contents.getHits());*/
+        return this.render("post");
 
+
+    }
 }
