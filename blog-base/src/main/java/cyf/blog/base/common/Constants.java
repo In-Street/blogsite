@@ -13,4 +13,8 @@ public interface Constants {
      */
     int MAX_PAGE = 100;
 
+    /**
+     * 文章图标
+     */
+    String[] ARTICLE_ICONS = {"bg-ico-book", "bg-ico-game", "bg-ico-note", "bg-ico-chat", "bg-ico-code", "bg-ico-image", "bg-ico-web", "bg-ico-link", "bg-ico-design", "bg-ico-lock"};
 }

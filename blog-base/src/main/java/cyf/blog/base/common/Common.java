@@ -4,11 +4,14 @@ import cyf.blog.dao.model.Contents;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 通用配置
+ *
  * @author Cheng Yufei
  * @create 2018-03-07 14:59
  **/
@@ -82,6 +85,35 @@ public class Common {
         size = size == 0 ? 1 : size;
         return "/user/img/rand/" + size + ".jpg";
     }
+
+    /**
+     * 显示文章图标
+     *
+     * @param cid
+     * @return
+     */
+    public static String show_icon(int cid) {
+        return Constants.ARTICLE_ICONS[cid % Constants.ARTICLE_ICONS.length];
+    }
+
+    /**
+     * 显示分类
+     *
+     * @param categories
+     * @return
+     */
+    public static String show_categories(String categories) throws UnsupportedEncodingException {
+        if (StringUtils.isBlank(categories)) {
+            return show_categories("默认分类");
+        }
+        String[] arr = categories.split(",");
+        StringBuffer sbuf = new StringBuffer();
+        for (String c : arr) {
+            sbuf.append("<a href=\"/category/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
+        }
+        return sbuf.toString();
+    }
+
     /**
      * 获取社交的链接地址
      *
