@@ -2,9 +2,11 @@ package cyf.blog.api.controller;
 
 import com.github.pagehelper.PageInfo;
 import cyf.blog.api.service.ContentService;
+import cyf.blog.api.service.SiteService;
 import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.dao.model.Contents;
+import cyf.blog.dao.model.bo.ArchiveBo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,6 +28,8 @@ public class IndexController extends BaseController{
 
     @Autowired
     private ContentService contentService;
+    @Autowired
+    private SiteService siteService;
 
 
     /**
@@ -77,5 +82,16 @@ public class IndexController extends BaseController{
         return this.render("post");
 
 
+    }
+
+    /**
+     * 归档
+     * @return
+     */
+    @GetMapping("archives")
+    public String getFile(HttpServletRequest request) {
+        List<ArchiveBo> archives = siteService.getArchives();
+        request.setAttribute("archives", archives);
+        return render("archives");
     }
 }

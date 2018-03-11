@@ -45,7 +45,7 @@ public class FilterConfiguration {
      *
      * @return
      */
-    @Bean
+//    @Bean
     public FilterRegistrationBean headerFilterRegistration(){
         FilterRegistrationBean registration = new FilterRegistrationBean();
         Filter filter = new OncePerRequestFilter() {

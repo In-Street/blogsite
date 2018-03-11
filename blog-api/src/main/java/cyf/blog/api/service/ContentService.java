@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 首页文章列表、文章详情
  * @author Cheng Yufei
  * @create 2018-03-06 17:34
  **/
@@ -38,4 +39,5 @@ public class ContentService {
         Contents contents = contentsMapper.selectByPrimaryKey(cid);
         return contents;
     }
+
 }

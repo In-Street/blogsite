@@ -1,6 +1,6 @@
 package cyf.blog.api.configuration;
 
-import cyf.blog.base.common.Common;
+import cyf.blog.dao.common.Common;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

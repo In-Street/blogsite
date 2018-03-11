@@ -1,5 +1,6 @@
-package cyf.blog.base.common;
+package cyf.blog.dao.common;
 
+import cyf.blog.base.common.Constants;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.util.TextUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +31,6 @@ public class Common {
      * @return
      */
     public static String permalink(Contents contents) {
-        System.out.println();
         return permalink(contents.getCid(), contents.getSlug());
     }
 

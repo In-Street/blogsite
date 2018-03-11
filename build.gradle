@@ -99,6 +99,13 @@ project(':blog-api') {
         compile project(':blog-base')
     }
 }
+
+project(':blog-dao') {
+    dependencies {
+        compile project(':blog-util')
+        compile project(':blog-base')
+    }
+}
 task wrapper(type: Wrapper) {
     gradleVersion = "4.4"
 }

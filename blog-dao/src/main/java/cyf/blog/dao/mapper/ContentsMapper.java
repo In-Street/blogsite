@@ -3,6 +3,8 @@ package cyf.blog.dao.mapper;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.ContentsExample;
 import java.util.List;
+
+import cyf.blog.dao.model.bo.ArchiveBo;
 import org.apache.ibatis.annotations.Param;
 
 public interface ContentsMapper {
@@ -37,4 +39,6 @@ public interface ContentsMapper {
     int updateByPrimaryKeyWithBLOBs(Contents record);
 
     int updateByPrimaryKey(Contents record);
+
+    List<ArchiveBo> getArchiveBos();
 }
