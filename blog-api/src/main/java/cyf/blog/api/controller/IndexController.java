@@ -6,6 +6,7 @@ import cyf.blog.api.service.SiteService;
 import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.dao.model.Contents;
+import cyf.blog.dao.model.Metas;
 import cyf.blog.dao.model.bo.ArchiveBo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,5 +94,16 @@ public class IndexController extends BaseController{
         List<ArchiveBo> archives = siteService.getArchives();
         request.setAttribute("archives", archives);
         return render("archives");
+    }
+
+    /**
+     * 友链
+     * @return
+     */
+    @GetMapping("links")
+    public String getLinks(HttpServletRequest request) {
+        List<Metas> links = siteService.getLinks();
+        request.setAttribute("links", links);
+        return render("links");
     }
 }

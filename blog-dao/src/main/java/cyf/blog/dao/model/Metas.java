@@ -12,7 +12,7 @@ public class Metas implements Serializable {
 
     private String slug;
 
-    private String type;
+    private Integer type;
 
     private String description;
 
@@ -46,11 +46,11 @@ public class Metas implements Serializable {
         this.slug = slug;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

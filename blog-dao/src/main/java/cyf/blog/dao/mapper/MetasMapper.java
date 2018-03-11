@@ -18,8 +18,6 @@ public interface MetasMapper {
 
     int selfPlusMinus(@Param("columnName") String columnName, @Param("operator") String operator, @Param("count") int count, @Param("example") Object example);
 
-    int selfPlusMinusByPrimaryKey(@Param("columnName") String columnName, @Param("operator") String operator, @Param("count") int count, @Param("id") int id);
-
     List<Metas> selectByExample(MetasExample example);
 
     Metas selectByPrimaryKey(Integer mid);

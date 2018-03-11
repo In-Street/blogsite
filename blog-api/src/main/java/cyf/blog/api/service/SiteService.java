@@ -2,9 +2,13 @@ package cyf.blog.api.service;
 
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
+import cyf.blog.base.enums.db.Metatype;
 import cyf.blog.dao.mapper.ContentsMapper;
+import cyf.blog.dao.mapper.MetasMapper;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.ContentsExample;
+import cyf.blog.dao.model.Metas;
+import cyf.blog.dao.model.MetasExample;
 import cyf.blog.dao.model.bo.ArchiveBo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -30,6 +34,8 @@ public class SiteService {
 
     @Autowired
     private ContentsMapper contentsMapper;
+    @Autowired
+    private MetasMapper metasMapper;
 
     /**
      * 归档
@@ -60,5 +66,13 @@ public class SiteService {
         });
 
         return archiveBos;
+    }
+
+    public List<Metas> getLinks() {
+        MetasExample example = new MetasExample();
+        example.setOrderByClause("sort asc");
+        example.createCriteria().andTypeEqualTo(Metatype.link.getCode());
+        List<Metas> metas = metasMapper.selectByExample(example);
+        return metas;
     }
 }
