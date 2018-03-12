@@ -9,6 +9,7 @@ import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.Metas;
 import cyf.blog.dao.model.bo.ArchiveBo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class IndexController extends BaseController{
     private ContentService contentService;
     @Autowired
     private SiteService siteService;
+
 
 
     /**
@@ -79,7 +81,7 @@ public class IndexController extends BaseController{
         request.setAttribute("article", contents);
         request.setAttribute("is_post", true);
        /* completeArticle(request, contents);
-        updateArticleHit(contents.getCid(), contents.getHits());*/
+        */
         return this.render("post");
 
 
@@ -106,4 +108,27 @@ public class IndexController extends BaseController{
         request.setAttribute("links", links);
         return render("links");
     }
+
+    /**
+     * 自定义页面,如关于的页面
+     */
+    @GetMapping(value = "/{pageName}")
+    public String page(@PathVariable String pageName, HttpServletRequest request) {
+        Contents contents = contentService.getContentByPageName(pageName);
+        if (null == contents) {
+            return this.render_404();
+        }
+        /*if (contents.getAllowComment()) {
+            String cp = request.getParameter("cp");
+            if (StringUtils.isBlank(cp)) {
+                cp = "1";
+            }
+            PageInfo<CommentBo> commentsPaginator = commentService.getComments(contents.getCid(), Integer.parseInt(cp), 6);
+            request.setAttribute("comments", commentsPaginator);
+        }*/
+        request.setAttribute("article", contents);
+        return this.render("page");
+    }
+
+
 }

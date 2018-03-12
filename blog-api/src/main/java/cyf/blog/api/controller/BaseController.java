@@ -1,5 +1,9 @@
 package cyf.blog.api.controller;
 
+import cyf.blog.base.common.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -10,6 +14,8 @@ public abstract class BaseController {
 
 
     public static String THEME = "themes/default";
+
+
 
     /**
      * 主页的页面主题
@@ -28,4 +34,10 @@ public abstract class BaseController {
     public String render_404() {
         return "comm/error_404";
     }
+
+
+
+
+
+
 }
