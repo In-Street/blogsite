@@ -16,7 +16,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 首页文章列表、文章详情
@@ -77,5 +79,16 @@ public class ContentService {
             contentsMapper.selfPlusMinusByPrimaryKey("hits", "+", increment.intValue(), cid);
             stringRedisTemplate.delete(key);
         }
+    }
+
+    public void updateMap(Integer cid) {
+        Map<String, Object> fieldMap = new HashMap<>();
+        fieldMap.put("hits", "+1");
+        fieldMap.put("comments_num", "+1");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("filedMap", fieldMap);
+        params.put("cid", cid);
+        contentsMapper.updateMap(params);
     }
 }

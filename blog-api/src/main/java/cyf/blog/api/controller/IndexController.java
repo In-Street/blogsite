@@ -10,6 +10,7 @@ import cyf.blog.dao.model.Metas;
 import cyf.blog.dao.model.bo.ArchiveBo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -130,5 +131,15 @@ public class IndexController extends BaseController{
         return this.render("page");
     }
 
+    /**
+     * 测试 update时传入Map参数
+     * @param cid
+     * @return
+     */
+    @GetMapping(value = "updateMap/{cid}")
+    public String updateMap(@PathVariable Integer cid) {
+        contentService.updateMap(cid);
+        return "";
+    }
 
 }
