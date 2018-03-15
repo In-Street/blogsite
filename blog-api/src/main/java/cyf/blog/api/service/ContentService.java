@@ -10,7 +10,6 @@ import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.ContentsExample;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -83,12 +82,12 @@ public class ContentService {
 
     public void updateMap(Integer cid) {
         Map<String, Object> fieldMap = new HashMap<>();
-        fieldMap.put("hits", "+1");
-        fieldMap.put("comments_num", "+1");
+        fieldMap.put("hits", "+3");
+        fieldMap.put("comments_num", "+2");
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("filedMap", fieldMap);
-        params.put("cid", cid);
-        contentsMapper.updateMap(params);
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("fieldMap", fieldMap);
+        paramMap.put("cid", cid);
+        contentsMapper.multiplePlusMinusByPrimaryKey(paramMap);
     }
 }

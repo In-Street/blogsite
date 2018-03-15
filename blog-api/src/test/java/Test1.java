@@ -20,10 +20,10 @@ public class Test1 {
 
     @Test
     public void t2() {
-        System.out.println(Math.pow(2,2));
+        System.out.println(Math.pow(2, 2));
         int i = 119 % (16);
         System.out.println(i);
-        int i1 = 119 & (16-1);
+        int i1 = 119 & (16 - 1);
         System.out.println(i1);
 
     }
