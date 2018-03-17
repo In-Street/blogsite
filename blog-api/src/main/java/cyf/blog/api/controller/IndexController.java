@@ -155,16 +155,43 @@ public class IndexController extends BaseController{
             return this.render_404();
         }
 
-        PageInfo<Contents> contentsPaginator = contentService.getContentsByCids( pageIndex, limit,cids);
+        PageInfo<Contents> contents= contentService.getContentsByCids( pageIndex, limit,cids);
 
-        request.setAttribute("articles", contentsPaginator);
-//        request.setAttribute("meta", metaDto);
+        request.setAttribute("articles", contents);
         request.setAttribute("type", "分类");
         request.setAttribute("keyword", keyword);
 
         return this.render("page-category");
     }
 
+    /**
+     * 标签页
+     *
+     * @return
+     */
+    @GetMapping(value = "tag/{keyword}")
+    public String tags(HttpServletRequest request, @PathVariable String keyword, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        return this.tags(request, keyword, 1, limit);
+    }
+
+    @GetMapping(value = "tag/{keyword}/{pageIndex}")
+    public String tags(HttpServletRequest request, @PathVariable String keyword,
+                             @PathVariable int pageIndex, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        pageIndex = pageIndex < 0 || pageIndex > Constants.MAX_PAGE ? 1 : pageIndex;
+
+        List<Integer> cids = metaService.getCidsByNameAndType(MetaType.tag.getCode(), keyword);
+        if (CollectionUtils.isEmpty(cids)) {
+            return this.render_404();
+        }
+
+        PageInfo<Contents> contents = contentService.getContentsByCids( pageIndex, limit,cids);
+
+        request.setAttribute("articles", contents);
+        request.setAttribute("type", "标签");
+        request.setAttribute("keyword", keyword);
+
+        return this.render("page-category");
+    }
 
     /**
      * 测试 update时传入Map参数

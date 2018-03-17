@@ -80,7 +80,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    cid, title, slug, created, modified, author_id, type, status, tags, categories, hits, 
+    cid, title, slug, created, modified, author_id, type, status, tags, categories, hits,
     comments_num, allow_comment, allow_ping, allow_feed
   </sql>
   <sql id="Blob_Column_List">
@@ -133,7 +133,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -151,18 +151,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cyf.blog.dao.model.Contents">
-    insert into t_contents (cid, title, slug, 
-      created, modified, author_id, 
-      type, status, tags, 
-      categories, hits, comments_num, 
-      allow_comment, allow_ping, allow_feed, 
-      content)
-    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, 
-      #{created,jdbcType=TIMESTAMP}, #{modified,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER}, 
-      #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR}, 
-      #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{commentsNum,jdbcType=INTEGER}, 
-      #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, #{allowFeed,jdbcType=BIT}, 
-      #{content,jdbcType=LONGVARCHAR})
+    insert into t_contents (cid, title, slug,
+    created, modified, author_id,
+    type, status, tags,
+    categories, hits, comments_num,
+    allow_comment, allow_ping, allow_feed,
+    content)
+    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
+    #{created,jdbcType=TIMESTAMP}, #{modified,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER},
+    #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR},
+    #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{commentsNum,jdbcType=INTEGER},
+    #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, #{allowFeed,jdbcType=BIT},
+    #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cyf.blog.dao.model.Contents">
     insert into t_contents
@@ -332,21 +332,21 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update t_contents
     set cid = #{record.cid,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      slug = #{record.slug,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=TIMESTAMP},
-      modified = #{record.modified,jdbcType=TIMESTAMP},
-      author_id = #{record.authorId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      tags = #{record.tags,jdbcType=VARCHAR},
-      categories = #{record.categories,jdbcType=VARCHAR},
-      hits = #{record.hits,jdbcType=INTEGER},
-      comments_num = #{record.commentsNum,jdbcType=INTEGER},
-      allow_comment = #{record.allowComment,jdbcType=BIT},
-      allow_ping = #{record.allowPing,jdbcType=BIT},
-      allow_feed = #{record.allowFeed,jdbcType=BIT},
-      content = #{record.content,jdbcType=LONGVARCHAR}
+    title = #{record.title,jdbcType=VARCHAR},
+    slug = #{record.slug,jdbcType=VARCHAR},
+    created = #{record.created,jdbcType=TIMESTAMP},
+    modified = #{record.modified,jdbcType=TIMESTAMP},
+    author_id = #{record.authorId,jdbcType=INTEGER},
+    type = #{record.type,jdbcType=INTEGER},
+    status = #{record.status,jdbcType=INTEGER},
+    tags = #{record.tags,jdbcType=VARCHAR},
+    categories = #{record.categories,jdbcType=VARCHAR},
+    hits = #{record.hits,jdbcType=INTEGER},
+    comments_num = #{record.commentsNum,jdbcType=INTEGER},
+    allow_comment = #{record.allowComment,jdbcType=BIT},
+    allow_ping = #{record.allowPing,jdbcType=BIT},
+    allow_feed = #{record.allowFeed,jdbcType=BIT},
+    content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -354,20 +354,20 @@
   <update id="updateByExample" parameterType="map">
     update t_contents
     set cid = #{record.cid,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      slug = #{record.slug,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=TIMESTAMP},
-      modified = #{record.modified,jdbcType=TIMESTAMP},
-      author_id = #{record.authorId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      tags = #{record.tags,jdbcType=VARCHAR},
-      categories = #{record.categories,jdbcType=VARCHAR},
-      hits = #{record.hits,jdbcType=INTEGER},
-      comments_num = #{record.commentsNum,jdbcType=INTEGER},
-      allow_comment = #{record.allowComment,jdbcType=BIT},
-      allow_ping = #{record.allowPing,jdbcType=BIT},
-      allow_feed = #{record.allowFeed,jdbcType=BIT}
+    title = #{record.title,jdbcType=VARCHAR},
+    slug = #{record.slug,jdbcType=VARCHAR},
+    created = #{record.created,jdbcType=TIMESTAMP},
+    modified = #{record.modified,jdbcType=TIMESTAMP},
+    author_id = #{record.authorId,jdbcType=INTEGER},
+    type = #{record.type,jdbcType=INTEGER},
+    status = #{record.status,jdbcType=INTEGER},
+    tags = #{record.tags,jdbcType=VARCHAR},
+    categories = #{record.categories,jdbcType=VARCHAR},
+    hits = #{record.hits,jdbcType=INTEGER},
+    comments_num = #{record.commentsNum,jdbcType=INTEGER},
+    allow_comment = #{record.allowComment,jdbcType=BIT},
+    allow_ping = #{record.allowPing,jdbcType=BIT},
+    allow_feed = #{record.allowFeed,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -426,57 +426,56 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="cyf.blog.dao.model.Contents">
     update t_contents
     set title = #{title,jdbcType=VARCHAR},
-      slug = #{slug,jdbcType=VARCHAR},
-      created = #{created,jdbcType=TIMESTAMP},
-      modified = #{modified,jdbcType=TIMESTAMP},
-      author_id = #{authorId,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      tags = #{tags,jdbcType=VARCHAR},
-      categories = #{categories,jdbcType=VARCHAR},
-      hits = #{hits,jdbcType=INTEGER},
-      comments_num = #{commentsNum,jdbcType=INTEGER},
-      allow_comment = #{allowComment,jdbcType=BIT},
-      allow_ping = #{allowPing,jdbcType=BIT},
-      allow_feed = #{allowFeed,jdbcType=BIT},
-      content = #{content,jdbcType=LONGVARCHAR}
+    slug = #{slug,jdbcType=VARCHAR},
+    created = #{created,jdbcType=TIMESTAMP},
+    modified = #{modified,jdbcType=TIMESTAMP},
+    author_id = #{authorId,jdbcType=INTEGER},
+    type = #{type,jdbcType=INTEGER},
+    status = #{status,jdbcType=INTEGER},
+    tags = #{tags,jdbcType=VARCHAR},
+    categories = #{categories,jdbcType=VARCHAR},
+    hits = #{hits,jdbcType=INTEGER},
+    comments_num = #{commentsNum,jdbcType=INTEGER},
+    allow_comment = #{allowComment,jdbcType=BIT},
+    allow_ping = #{allowPing,jdbcType=BIT},
+    allow_feed = #{allowFeed,jdbcType=BIT},
+    content = #{content,jdbcType=LONGVARCHAR}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cyf.blog.dao.model.Contents">
     update t_contents
     set title = #{title,jdbcType=VARCHAR},
-      slug = #{slug,jdbcType=VARCHAR},
-      created = #{created,jdbcType=TIMESTAMP},
-      modified = #{modified,jdbcType=TIMESTAMP},
-      author_id = #{authorId,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      tags = #{tags,jdbcType=VARCHAR},
-      categories = #{categories,jdbcType=VARCHAR},
-      hits = #{hits,jdbcType=INTEGER},
-      comments_num = #{commentsNum,jdbcType=INTEGER},
-      allow_comment = #{allowComment,jdbcType=BIT},
-      allow_ping = #{allowPing,jdbcType=BIT},
-      allow_feed = #{allowFeed,jdbcType=BIT}
+    slug = #{slug,jdbcType=VARCHAR},
+    created = #{created,jdbcType=TIMESTAMP},
+    modified = #{modified,jdbcType=TIMESTAMP},
+    author_id = #{authorId,jdbcType=INTEGER},
+    type = #{type,jdbcType=INTEGER},
+    status = #{status,jdbcType=INTEGER},
+    tags = #{tags,jdbcType=VARCHAR},
+    categories = #{categories,jdbcType=VARCHAR},
+    hits = #{hits,jdbcType=INTEGER},
+    comments_num = #{commentsNum,jdbcType=INTEGER},
+    allow_comment = #{allowComment,jdbcType=BIT},
+    allow_ping = #{allowPing,jdbcType=BIT},
+    allow_feed = #{allowFeed,jdbcType=BIT}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
   <update id="selfPlusMinus">
     update t_contents
- 	  set ${columnName} = ${columnName} ${operator}  ${count} 
-	  <if test="_parameter != null">
-		<include refid="Update_By_Example_Where_Clause" />
-	  </if>
+    set ${columnName} = ${columnName} ${operator}  ${count}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
   </update>
   <update id="selfPlusMinusByPrimaryKey">
     update t_contents
- 	  set ${columnName} = ${columnName} ${operator}  ${count} 
-	  where cid = ${id}
+    set ${columnName} = ${columnName} ${operator}  ${count}
+    where cid = ${id}
   </update>
 
   <!--
        select * from user where name = 'zhangsan'  / ${name}
        select * from user where name = ?     / #{name}
-
      mybatis动态解析sql时：
        ${}: 直接字符串替换; 会有sql注入问题
        #{}: 预处理时会把参数部分用占位符 ? 替代
@@ -484,12 +483,12 @@
   <update id="multiplePlusMinusByPrimaryKey">
     update t_contents
     <set>
-        <foreach collection="fieldMap.entrySet()" index="key" item="value" separator=",">
-            <if test="key != 'id'.toString()">
-                ${key} =${key} ${value}
-            </if>
-        </foreach>
-           where cid = #{cid}
+      <foreach collection="fieldMap.entrySet()" index="key" item="value" separator=",">
+        <if test="key != 'id'.toString()">
+          ${key} =${key} ${value}
+        </if>
+      </foreach>
+      where cid = #{cid}
     </set>
   </update>
   <resultMap  id="ResultMapWithArchiveBos" type="cyf.blog.dao.model.bo.ArchiveBo">

@@ -13,6 +13,7 @@ public enum MetaType {
 
     link(1, "链接"),
     category(2, "分类"),
+    tag(3, "标签"),
 
     ;
 
