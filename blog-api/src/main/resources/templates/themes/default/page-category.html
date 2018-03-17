@@ -25,7 +25,7 @@
                                     <div class="item-meta clearfix">
                                         <div th:class="'item-meta-ico '+${commons.show_icon(article.cid)} "
                                              th:style="'background: url('+@{/user/img/bg-ico.png}+') no-repeat;background-size: 40px auto;'"></div>
-                                        <div class="item-meta-date">发布于 <th:block th:text="${commons.fmtdate(article.created)}"/></div>
+                                        <div class="item-meta-date">发布于 <th:block th:text="${#dates.format(article.created,'yyyy-MM-dd HH:mm:ss')}"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +36,11 @@
         </th:block>
 
     </div>
+    <div class="lists-navigator clearfix">
+        <div th:replace="comm/macros::pageNav(${articles},'←','→','category/'+${keyword})"></div>
+    </div>
 </div>
+
 </body>
 <div th:replace="themes/default/footer::footer"></div>
 </html>

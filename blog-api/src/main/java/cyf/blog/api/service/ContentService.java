@@ -65,6 +65,19 @@ public class ContentService {
         return contents;
     }
 
+
+    public PageInfo getContentsByCids(int pageNum, int pageSize,List<Integer> cids) {
+        ContentsExample example = new ContentsExample();
+        example.setOrderByClause("created desc,cid");
+        example.createCriteria().andStatusEqualTo(ContentStatus.publish.getCode()).andTypeEqualTo(ContentType.post.getCode()).andCidIn(cids);
+        PageHelper.startPage(pageNum, pageSize);
+        List<Contents> contents = contentsMapper.selectByExample(example);
+        PageInfo<Contents> pageInfo = new PageInfo<>(contents);
+        return pageInfo;
+    }
+
+
+
     /**
      * 更新文章点击
      *

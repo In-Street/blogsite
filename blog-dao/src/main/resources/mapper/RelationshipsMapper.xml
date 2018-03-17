@@ -162,5 +162,5 @@
  	  set ${columnName} = ${columnName} ${operator}  ${count} 
 	  where cid = ${id}
   </update>
-  <cache />
+  <cache type="cyf.blog.dao.configuration.MyBatisRedisCache"/>
 </mapper>

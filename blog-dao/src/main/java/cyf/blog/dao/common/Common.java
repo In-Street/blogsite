@@ -1,5 +1,6 @@
 package cyf.blog.dao.common;
 
+import com.github.pagehelper.PageInfo;
 import cyf.blog.base.common.Constants;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.util.TextUtil;
@@ -145,6 +146,15 @@ public class Common {
             sbuf.append("<a href=\"/tag/" + URLEncoder.encode(c, "UTF-8") + "\">" + c + "</a>");
         }
         return sbuf.toString();
+    }
+
+    /**
+     * 判断分页中是否有数据
+     *
+     * @return
+     */
+    public static boolean is_empty(PageInfo pageInfo) {
+        return pageInfo == null || (pageInfo.getList() == null) || (pageInfo.getList().size() == 0);
     }
 
     /**

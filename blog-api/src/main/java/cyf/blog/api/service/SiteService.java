@@ -2,7 +2,7 @@ package cyf.blog.api.service;
 
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
-import cyf.blog.base.enums.db.Metatype;
+import cyf.blog.base.enums.db.MetaType;
 import cyf.blog.dao.mapper.ContentsMapper;
 import cyf.blog.dao.mapper.MetasMapper;
 import cyf.blog.dao.model.Contents;
@@ -11,7 +11,6 @@ import cyf.blog.dao.model.Metas;
 import cyf.blog.dao.model.MetasExample;
 import cyf.blog.dao.model.bo.ArchiveBo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +70,7 @@ public class SiteService {
     public List<Metas> getLinks() {
         MetasExample example = new MetasExample();
         example.setOrderByClause("sort asc");
-        example.createCriteria().andTypeEqualTo(Metatype.link.getCode());
+        example.createCriteria().andTypeEqualTo(MetaType.link.getCode());
         List<Metas> metas = metasMapper.selectByExample(example);
         return metas;
     }

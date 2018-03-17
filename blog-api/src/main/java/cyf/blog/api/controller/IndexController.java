@@ -2,9 +2,11 @@ package cyf.blog.api.controller;
 
 import com.github.pagehelper.PageInfo;
 import cyf.blog.api.service.ContentService;
+import cyf.blog.api.service.MetaService;
 import cyf.blog.api.service.SiteService;
 import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.db.ContentStatus;
+import cyf.blog.base.enums.db.MetaType;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.Metas;
 import cyf.blog.dao.model.bo.ArchiveBo;
@@ -13,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +36,8 @@ public class IndexController extends BaseController{
     private ContentService contentService;
     @Autowired
     private SiteService siteService;
+    @Autowired
+    private MetaService metaService;
 
 
 
@@ -130,6 +135,36 @@ public class IndexController extends BaseController{
         request.setAttribute("article", contents);
         return this.render("page");
     }
+
+    /**
+     * 分类页
+     *
+     * @return
+     */
+    @GetMapping(value = "category/{keyword}")
+    public String categories(HttpServletRequest request, @PathVariable String keyword, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        return this.categories(request, keyword, 1, limit);
+    }
+
+    @GetMapping(value = "category/{keyword}/{pageIndex}")
+    public String categories(HttpServletRequest request, @PathVariable String keyword,
+                             @PathVariable int pageIndex, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        pageIndex = pageIndex < 0 || pageIndex > Constants.MAX_PAGE ? 1 : pageIndex;
+        List<Integer> cids = metaService.getCidsByNameAndType(MetaType.category.getCode(), keyword);
+        if (CollectionUtils.isEmpty(cids)) {
+            return this.render_404();
+        }
+
+        PageInfo<Contents> contentsPaginator = contentService.getContentsByCids( pageIndex, limit,cids);
+
+        request.setAttribute("articles", contentsPaginator);
+//        request.setAttribute("meta", metaDto);
+        request.setAttribute("type", "分类");
+        request.setAttribute("keyword", keyword);
+
+        return this.render("page-category");
+    }
+
 
     /**
      * 测试 update时传入Map参数

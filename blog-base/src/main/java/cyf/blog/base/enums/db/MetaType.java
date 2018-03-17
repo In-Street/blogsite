@@ -9,7 +9,7 @@ import lombok.Getter;
  * @create 2018-03-11 下午6:11
  **/
 @Getter
-public enum Metatype {
+public enum MetaType {
 
     link(1, "链接"),
     category(2, "分类"),
@@ -19,17 +19,17 @@ public enum Metatype {
     private Integer code;
     private String name;
 
-    Metatype(Integer code, String name) {
+    MetaType(Integer code, String name) {
         this.code = code;
         this.name = name;
     }
 
-    public Metatype get(Integer code) {
+    public MetaType get(Integer code) {
         if (null == code) {
             return null;
         }
-        Metatype[] values = Metatype.values();
-        for (Metatype value : values) {
+        MetaType[] values = MetaType.values();
+        for (MetaType value : values) {
             if (code.equals(value.code)) {
                 return value.get(code);
             }
