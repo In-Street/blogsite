@@ -9,8 +9,10 @@
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="keywords" th:content="${keywords ?: commons.site_option('site_keywords')}"/>
     <meta name="description" th:content="${description ?:commons.site_option('site_description')}"/>
-    <link rel="shortcut icon" th:href="@{/user/img/favicon.png}"/>
-    <link rel="apple-touch-icon" th:href="@{/user/img/apple-touch-icon.png}"/>
+    <!--设置网站title图标及收藏图标 start-->
+   <link rel="shortcut icon" th:href="@{/user/img/favicon.ico}"/>
+   <link rel="icon" th:href="@{/user/img/favicon.ico}"/>
+    <!--end -->
     <title><th:block th:text="${title ?: ''}+' - '+${commons.site_option('site_title','CYF Blog')}"></th:block></title>
     <link th:href="@{//cdn.bootcss.com/highlight.js/9.9.0/styles/xcode.min.css}" rel="stylesheet"/>
     <link th:href="@{/user/css/style.min.css}" rel="stylesheet"/>
@@ -37,6 +39,7 @@
             <a th:href="${commons.site_url('/links')}">友链</a>
             <a th:href="${commons.site_url('/about')}">关于</a>
         </div>
+        <!-- 搜索暂时不上
         <div class="navbar-search" onclick="">
             <span class="icon-search"></span>
             <form role="search" onsubmit="return false;">
@@ -45,7 +48,7 @@
                            autocomplete="off"/>
                 </span>
             </form>
-        </div>
+        </div>-->
         <div class="navbar-mobile-menu" onclick="">
             <span class="icon-menu cross"><span class="middle"></span></span>
             <ul>
