@@ -1,6 +1,7 @@
 package cyf.blog.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author 
@@ -16,7 +17,7 @@ public class Logs implements Serializable {
 
     private String ip;
 
-    private Integer created;
+    private Date created;
 
     private static final long serialVersionUID = 1L;
 
@@ -60,11 +61,11 @@ public class Logs implements Serializable {
         this.ip = ip;
     }
 
-    public Integer getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Integer created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 }

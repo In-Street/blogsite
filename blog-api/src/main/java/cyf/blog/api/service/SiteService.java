@@ -3,13 +3,12 @@ package cyf.blog.api.service;
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
 import cyf.blog.base.enums.db.MetaType;
+import cyf.blog.dao.mapper.AttachMapper;
 import cyf.blog.dao.mapper.ContentsMapper;
 import cyf.blog.dao.mapper.MetasMapper;
-import cyf.blog.dao.model.Contents;
-import cyf.blog.dao.model.ContentsExample;
-import cyf.blog.dao.model.Metas;
-import cyf.blog.dao.model.MetasExample;
+import cyf.blog.dao.model.*;
 import cyf.blog.dao.model.bo.ArchiveBo;
+import cyf.blog.dao.model.bo.StatisticsBo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -35,6 +34,8 @@ public class SiteService {
     private ContentsMapper contentsMapper;
     @Autowired
     private MetasMapper metasMapper;
+    @Autowired
+    private AttachMapper attachMapper;
 
     /**
      * 归档
@@ -74,4 +75,25 @@ public class SiteService {
         List<Metas> metas = metasMapper.selectByExample(example);
         return metas;
     }
+
+    public StatisticsBo getStatistics() {
+
+        ContentsExample contentExample = new ContentsExample();
+        contentExample.createCriteria().andStatusEqualTo(ContentStatus.publish.getCode()).andTypeEqualTo(ContentType.post.getCode());
+        long postCount = contentsMapper.countByExample(contentExample);
+
+        MetasExample metasExample = new MetasExample();
+        metasExample.createCriteria().andTypeEqualTo(MetaType.link.getCode());
+        long linkCount = metasMapper.countByExample(metasExample);
+
+        long attachCount = attachMapper.countByExample(new AttachExample());
+        StatisticsBo statistics = new StatisticsBo();
+        statistics.setArticles(postCount);
+//        statistics.setComments(comments);
+        statistics.setAttachs(attachCount);
+        statistics.setLinks(linkCount);
+
+        return statistics;
+    }
+
 }

@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 public abstract class BaseController {
 
 
-    public static String THEME = "themes/default";
+    public static String theme = "themes/default";
+    public static String background = "admin";
 
 
 
@@ -19,7 +20,16 @@ public abstract class BaseController {
      * @return
      */
     public String render(String viewName) {
-        return THEME + "/" + viewName;
+        return theme + "/" + viewName;
+    }
+
+    /**
+     * 后台页面跳转
+     * @param viewName
+     * @return
+     */
+    public String skip(String viewName) {
+        return background + "/" + viewName;
     }
 
     public BaseController title(HttpServletRequest request, String title) {

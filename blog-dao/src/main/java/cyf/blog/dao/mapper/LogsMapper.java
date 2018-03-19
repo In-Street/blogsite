@@ -20,6 +20,19 @@ public interface LogsMapper {
 
     int selfPlusMinusByPrimaryKey(@Param("columnName") String columnName, @Param("operator") String operator, @Param("count") int count, @Param("id") int id);
 
+    /**
+        eg:
+        fieldMap 名称固定
+        Map<String, Object> fieldMap = new HashMap<>();
+        fieldMap.put("reply_num", "+1");
+        fieldMap.put("comments_num", "+1");
+
+        Map<String, Object> paramMap = new HashMap<>();
+        params.put("fieldMap", fieldMap);
+        params.put("id", id);
+*/
+    int multiplePlusMinusByPrimaryKey(java.util.Map<String, Object> paramMap);
+
     List<Logs> selectByExample(LogsExample example);
 
     Logs selectByPrimaryKey(Integer id);

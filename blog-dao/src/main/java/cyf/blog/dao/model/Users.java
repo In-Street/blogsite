@@ -1,6 +1,7 @@
 package cyf.blog.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author 
@@ -18,7 +19,7 @@ public class Users implements Serializable {
 
     private String screenName;
 
-    private Integer created;
+    private Date created;
 
     private Integer activated;
 
@@ -76,11 +77,11 @@ public class Users implements Serializable {
         this.screenName = screenName;
     }
 
-    public Integer getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Integer created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 

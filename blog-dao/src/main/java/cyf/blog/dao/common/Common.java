@@ -171,4 +171,19 @@ public class Common {
         map.put("twitter", WebConst.initConfig.get(prefix + "twitter"));*/
         return map;
     }
+
+    /**
+     * 返回github头像地址
+     *
+     * @param email
+     * @return
+     */
+    public static String gravatar(String email) {
+        String avatarUrl = "https://github.com/identicons/";
+        if (StringUtils.isBlank(email)) {
+            email = "873401580@qq.com";
+        }
+        String hash = TextUtil.MD5encode(email.trim().toLowerCase());
+        return avatarUrl + hash + ".png";
+    }
 }

@@ -11,8 +11,8 @@ import java.io.Serializable;
 /**
  * 通用返回对象
  * 
- * @author Richard on 2017/1/5
- * @since 1.0
+ * @author Cheng Yufei
+ * @create 2018-03-18 上午11:16
  */
 @Getter
 @Setter

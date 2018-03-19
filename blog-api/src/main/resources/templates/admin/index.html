@@ -21,14 +21,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
+                      <!--  <div class="col-sm-6 col-lg-3">
                             <div class="mini-stat clearfix bg-purple bx-shadow">
                                 <span class="mini-stat-icon"><i class="fa fa-comments-o" aria-hidden="true"></i></span>
                                 <div class="mini-stat-info text-right">
                                     收到了<span class="counter" th:text="${statistics.comments}"></span>条留言
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="col-sm-6 col-lg-3">
                             <div class="mini-stat clearfix bg-success bx-shadow">
@@ -60,7 +60,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item" th:each="article : ${articles}">
                             <span class="badge badge-primary"
-                                  th:title="${article.commentsNum}+'条评论'" th:text="${article.commentsNum}"></span>
+                                  th:title="${article.hits}+'浏览量'" th:text="${article.hits}"></span>
                                             <a target="_blank" th:href="${commons.site_url('/article/')}+${article.cid}"
                                                th:text="${article.title}"></a>
                                         </li>
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                    <!--    <div class="col-md-4">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">最新留言</h4>
@@ -94,7 +94,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-4">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -103,7 +103,7 @@
                                 <div class="panel-body">
                                     <ul class="list-group" >
                                         <li class="list-group-item" th:each="log : ${logs}">
-                                            <span th:text="${commons.fmtdate(log.created, 'yyyy-MM-dd HH:mm:ss')} +' => '+ ${log.action}"></span>
+                                            <span th:text="${#dates.format(log.created,'yyyy-MM-dd HH:mm:ss')} +' => '+ ${log.action}"></span>
                                         </li>
                                     </ul>
                                 </div>

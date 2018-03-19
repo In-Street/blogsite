@@ -8,7 +8,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="home_url" jdbcType="VARCHAR" property="homeUrl" />
     <result column="screen_name" jdbcType="VARCHAR" property="screenName" />
-    <result column="created" jdbcType="INTEGER" property="created" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="activated" jdbcType="INTEGER" property="activated" />
     <result column="logged" jdbcType="INTEGER" property="logged" />
     <result column="group_name" jdbcType="VARCHAR" property="groupName" />
@@ -122,7 +122,7 @@
       activated, logged, group_name
       )
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{homeUrl,jdbcType=VARCHAR}, #{screenName,jdbcType=VARCHAR}, #{created,jdbcType=INTEGER}, 
+      #{homeUrl,jdbcType=VARCHAR}, #{screenName,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{activated,jdbcType=INTEGER}, #{logged,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}
       )
   </insert>
@@ -177,7 +177,7 @@
         #{screenName,jdbcType=VARCHAR},
       </if>
       <if test="created != null">
-        #{created,jdbcType=INTEGER},
+        #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="activated != null">
         #{activated,jdbcType=INTEGER},
@@ -218,7 +218,7 @@
         screen_name = #{record.screenName,jdbcType=VARCHAR},
       </if>
       <if test="record.created != null">
-        created = #{record.created,jdbcType=INTEGER},
+        created = #{record.created,jdbcType=TIMESTAMP},
       </if>
       <if test="record.activated != null">
         activated = #{record.activated,jdbcType=INTEGER},
@@ -242,7 +242,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       home_url = #{record.homeUrl,jdbcType=VARCHAR},
       screen_name = #{record.screenName,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=INTEGER},
+      created = #{record.created,jdbcType=TIMESTAMP},
       activated = #{record.activated,jdbcType=INTEGER},
       logged = #{record.logged,jdbcType=INTEGER},
       group_name = #{record.groupName,jdbcType=VARCHAR}
@@ -269,7 +269,7 @@
         screen_name = #{screenName,jdbcType=VARCHAR},
       </if>
       <if test="created != null">
-        created = #{created,jdbcType=INTEGER},
+        created = #{created,jdbcType=TIMESTAMP},
       </if>
       <if test="activated != null">
         activated = #{activated,jdbcType=INTEGER},
@@ -290,7 +290,7 @@
       email = #{email,jdbcType=VARCHAR},
       home_url = #{homeUrl,jdbcType=VARCHAR},
       screen_name = #{screenName,jdbcType=VARCHAR},
-      created = #{created,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
       activated = #{activated,jdbcType=INTEGER},
       logged = #{logged,jdbcType=INTEGER},
       group_name = #{groupName,jdbcType=VARCHAR}
@@ -308,5 +308,15 @@
  	  set ${columnName} = ${columnName} ${operator}  ${count} 
 	  where uid = ${id}
   </update>
-  <cache type="cyf.blog.dao.configuration.MyBatisRedisCache"/>
+  <update id="multiplePlusMinusByPrimaryKey">
+    update t_users
+	<set>
+        <foreach collection="fieldMap.entrySet()" index="key" item="value" separator=",">
+            <if test="key != 'uid'.toString()">
+                ${key} =${key} ${value}
+            </if>
+        </foreach>
+           where uid = #{uid}
+    </set>
+  </update>
 </mapper>

@@ -7,7 +7,7 @@
     <result column="data" jdbcType="VARCHAR" property="data" />
     <result column="author_id" jdbcType="INTEGER" property="authorId" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="created" jdbcType="INTEGER" property="created" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -109,20 +109,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cyf.blog.dao.model.Logs">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into t_logs (action, data, author_id, 
-      ip, created)
-    values (#{action,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, 
-      #{ip,jdbcType=VARCHAR}, #{created,jdbcType=INTEGER})
+    insert into t_logs (id, action, data, 
+      author_id, ip, created
+      )
+    values (#{id,jdbcType=INTEGER}, #{action,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR}, 
+      #{authorId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cyf.blog.dao.model.Logs">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into t_logs
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="action != null">
         action,
       </if>
@@ -140,6 +139,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="action != null">
         #{action,jdbcType=VARCHAR},
       </if>
@@ -153,7 +155,7 @@
         #{ip,jdbcType=VARCHAR},
       </if>
       <if test="created != null">
-        #{created,jdbcType=INTEGER},
+        #{created,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -182,7 +184,7 @@
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
       <if test="record.created != null">
-        created = #{record.created,jdbcType=INTEGER},
+        created = #{record.created,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -196,7 +198,7 @@
       data = #{record.data,jdbcType=VARCHAR},
       author_id = #{record.authorId,jdbcType=INTEGER},
       ip = #{record.ip,jdbcType=VARCHAR},
-      created = #{record.created,jdbcType=INTEGER}
+      created = #{record.created,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -217,7 +219,7 @@
         ip = #{ip,jdbcType=VARCHAR},
       </if>
       <if test="created != null">
-        created = #{created,jdbcType=INTEGER},
+        created = #{created,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -228,7 +230,7 @@
       data = #{data,jdbcType=VARCHAR},
       author_id = #{authorId,jdbcType=INTEGER},
       ip = #{ip,jdbcType=VARCHAR},
-      created = #{created,jdbcType=INTEGER}
+      created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="selfPlusMinus">
@@ -242,6 +244,17 @@
     update t_logs
  	  set ${columnName} = ${columnName} ${operator}  ${count} 
 	  where id = ${id}
+  </update>
+  <update id="multiplePlusMinusByPrimaryKey">
+    update t_logs
+	<set>
+        <foreach collection="fieldMap.entrySet()" index="key" item="value" separator=",">
+            <if test="key != 'id'.toString()">
+                ${key} =${key} ${value}
+            </if>
+        </foreach>
+           where id = #{id}
+    </set>
   </update>
   <cache type="cyf.blog.dao.configuration.MyBatisRedisCache"/>
 </mapper>
