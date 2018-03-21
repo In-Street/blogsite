@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 通用配置
+ * 前台通用配置
  *
  * @author Cheng Yufei
  * @create 2018-03-07 14:59

@@ -34,7 +34,7 @@ public class AuthController extends BaseController {
     public Response login(@RequestParam String username,@RequestParam String password,@RequestParam(required = false) String remeber_me,
                           HttpServletRequest request,HttpServletResponse response) {
 
-
+        return new Response();
     }
 
 

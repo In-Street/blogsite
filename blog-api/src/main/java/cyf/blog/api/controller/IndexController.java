@@ -27,7 +27,7 @@ import java.util.Objects;
  */
 @Controller
 @Slf4j
-public class IndexController extends BaseController{
+public class IndexController extends BaseController {
 
 
     @Autowired
@@ -64,7 +64,7 @@ public class IndexController extends BaseController{
         PageInfo<Contents> articles = contentService.getContents(pageIndex, limit);
         request.setAttribute("articles", articles);
         if (pageIndex > 1) {
-           title(request, "第" + pageIndex + "页");
+            title(request, "第" + pageIndex + "页");
         }
         return render("index");
     }
@@ -79,7 +79,7 @@ public class IndexController extends BaseController{
     @GetMapping(value = {"article/{cid}", "article/{cid}.html"})
     public String getArticle(HttpServletRequest request, @PathVariable String cid) {
         Contents contents = contentService.getContentsById(Integer.valueOf(cid));
-        if (null == contents || Objects.equals(ContentStatus.draft.getCode(),contents.getStatus())) {
+        if (null == contents || Objects.equals(ContentStatus.draft.getCode(), contents.getStatus())) {
             return this.render_404();
         }
         request.setAttribute("article", contents);
@@ -93,6 +93,7 @@ public class IndexController extends BaseController{
 
     /**
      * 归档
+     *
      * @return
      */
     @GetMapping("archives")
@@ -104,6 +105,7 @@ public class IndexController extends BaseController{
 
     /**
      * 友链
+     *
      * @return
      */
     @GetMapping("links")

@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Cheng Yufei
@@ -8,13 +8,16 @@ import java.util.Map;
  **/
 public class Test1 {
 
+    static Random random = new Random();
+
     @Test
     public void t1() {
-        Object key = "taylor";
-        int hashCode = key.hashCode();
-        System.out.println(hashCode);
-        int i = hashCode & (32);
-        System.out.println(i);
+        int max = 4;
+        int min = 1;
+//        int res = random.nextInt(max - min + 1) + min;
+        int res = random.nextInt(4) + 1;
+
+        System.out.println(res);
 
     }
 
