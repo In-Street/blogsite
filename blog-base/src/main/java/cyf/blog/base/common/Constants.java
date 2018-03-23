@@ -38,5 +38,5 @@ public interface Constants {
     /**
      * 登录用户session key
      */
-    String LOGIN_SESSION_KEY = "login_user";
+    String LOGIN_SESSION_KEY = "login_user_";
 }

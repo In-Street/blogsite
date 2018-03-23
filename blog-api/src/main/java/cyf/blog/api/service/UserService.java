@@ -1,5 +1,6 @@
 package cyf.blog.api.service;
 
+import com.alibaba.fastjson.JSONObject;
 import cyf.blog.base.common.Constants;
 import cyf.blog.dao.mapper.UsersMapper;
 import cyf.blog.dao.model.Users;
@@ -29,7 +30,7 @@ public class UserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public Users login(String username, String password) {
+    public Users login(String username, String password, String sessionId) {
 
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             throw new RuntimeException("用户名或密码为空");
@@ -56,6 +57,8 @@ public class UserService {
         List<Users> users = usersMapper.selectByExample(usersExample);
 
         if (!CollectionUtils.isEmpty(users)) {
+            stringRedisTemplate.delete(key);
+            stringRedisTemplate.opsForValue().set(Constants.LOGIN_SESSION_KEY + sessionId, JSONObject.toJSONString(users.get(0)), 1, TimeUnit.MINUTES);
             return users.get(0);
         }
 

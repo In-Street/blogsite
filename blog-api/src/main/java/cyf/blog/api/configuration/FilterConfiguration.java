@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,7 @@ import java.lang.reflect.Field;
 
 /**
  * 过滤器配置类
+ *
  * @since 1.0
  */
 @Configuration
@@ -34,19 +36,18 @@ import java.lang.reflect.Field;
 public class FilterConfiguration {
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
-
+    private StringRedisTemplate stringRedisTemplate;
 
 
     /**
      * 刚开始启动项目不运行 doFilterInternal() 方法，直接到 registration.addUrlPatterns ，访问controller 时 执行
-     *
+     * <p>
      * 仅执行 doFilterInternal()
      *
      * @return
      */
 //    @Bean
-    public FilterRegistrationBean headerFilterRegistration(){
+    public FilterRegistrationBean headerFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         Filter filter = new OncePerRequestFilter() {
             @Override
@@ -65,9 +66,9 @@ public class FilterConfiguration {
                 }
 
                 String sessionId = header.getSessionId();
-                if(StringUtils.isNotBlank(sessionId)){
-                    String userJson = redisTemplate.opsForValue().get(Constants.USER_LOGIN_KEY + sessionId);
-                    if(StringUtils.isNotBlank(userJson)){
+                if (StringUtils.isNotBlank(sessionId)) {
+                    String userJson = stringRedisTemplate.opsForValue().get(Constants.USER_LOGIN_KEY + sessionId);
+                    if (StringUtils.isNotBlank(userJson)) {
                         LocalData.USER_JSON.set(userJson);
                         log.info("用户信息已设置,{}", userJson);
                         /*User dsmUser = FastJsonUtils.toBean(userJson, User.class);
@@ -77,7 +78,7 @@ public class FilterConfiguration {
 
                 LocalData.HEADER.set(header);
 
-                filterChain.doFilter(request,response);
+                filterChain.doFilter(request, response);
 
                 LocalData.USER_JSON.remove();
                 LocalData.HEADER.remove();
@@ -94,48 +95,46 @@ public class FilterConfiguration {
 
 
     /**
-     * 必须登陆
+     * 后台登录过滤
+     *
      * @return FilterRegistrationBean
      */
-  @Bean
-    public FilterRegistrationBean apploginFilterRegistration() {
+    @Bean
+    public FilterRegistrationBean loginFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         Filter filter = new OncePerRequestFilter() {
             @Override
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-                String sessionId = LocalData.HEADER.get().getSessionId();
-                log.info("登陆过滤器 sessionId={}",sessionId);
-
-                if(sessionId == null || redisTemplate.opsForValue().get(Constants.USER_LOGIN_KEY + sessionId) == null){
+               /* String requestURI = request.getRequestURI();
+                if (requestURI.contains("auth/login")) {
+                    filterChain.doFilter(request,response);
+                }*/
+                String sessionId = request.getSession().getId();
+                log.debug("sessionId:{}",sessionId);
+                String loginSession = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + sessionId);
+                log.info("登陆过滤器 session={}", loginSession);
+                if (loginSession == null) {
                     log.info("用户未登录");
-//                    String s = FastJsonUtils.toJSONString(new Response<>(RespStatusEnum.USER_NOT_LOGIN));
-                    String s = "";
-                    PrintWriter writer = response.getWriter();
-                    writer.print(s);
-                    writer.close();
+                    /*RequestDispatcher dispatcher = request.getRequestDispatcher("auth/login");
+                    dispatcher.forward(request, response);*/
+                    response.sendRedirect("/auth/login");
                     return;
                 }
-
-                filterChain.doFilter(request,response);
+                filterChain.doFilter(request, response);
             }
         };
 
         registration.setFilter(filter);
 
-
         String[] urlPattern = new String[]{
-                "/u/1"
+                "/admin/*"
         };
         registration.setEnabled(true);
         registration.addUrlPatterns(urlPattern);
         registration.setOrder(110);
-        registration.setName("apploginFilterRegistration");
+        registration.setName("loginFilterRegistration");
         return registration;
     }
-
-
-
 
 
 }
