@@ -1,6 +1,5 @@
 package cyf.blog.base.model;
 
-import cyf.blog.base.enums.RespStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,48 +20,33 @@ public class Response<T> implements Serializable {
 
 	private static final long serialVersionUID = -6553522891216707934L;
 
-	private int status;
-	private String desc;
-	private T result;
-
+	HttpStatus status;
 	/**
-	 * 扩展http状态码 全局异常包装返回
-	 * @param httpStatus HttpStatus
+	 * 错误信息
 	 */
-	public Response(HttpStatus httpStatus) {
-		this.status = httpStatus.value();
-		this.desc = httpStatus.getReasonPhrase();
+	private String msg;
+	/**
+	 * 请求是否成功
+	 */
+	private boolean success;
+
+	public Response(HttpStatus status) {
+		this.status = status;
 	}
 
-	/**
-	 * 失败错误返回，只允许返回枚举中存在的类型，枚举中不存在先扩充枚举类
-	 * @param respStatusEnum 枚举类型
-	 */
-	public Response(RespStatusEnum respStatusEnum) {
-		this.status = respStatusEnum.getStatus();
-		this.desc = respStatusEnum.getDesc();
+	public Response(boolean success,String msg) {
+		this.success = success;
+		this.msg = msg;
+	}
+	public Response(boolean success) {
+		this.success = success;
 	}
 
-	/**
-	 * 成功的返回
-	 * @param t
-	 */
-	public Response(T t) {
-		this.status = RespStatusEnum.OK.getStatus();
-		this.desc = RespStatusEnum.OK.getDesc();
-		this.result = t;
+	public static Response ok() {
+		return new Response(true);
 	}
 
-	/**
-	 * 成功的返回
-	 */
-	public Response() {
-		this.status = RespStatusEnum.OK.getStatus();
-		this.desc = RespStatusEnum.OK.getDesc();
-	}
-
-	public void setRespStatus(RespStatusEnum respStatusEnum) {
-		this.status = respStatusEnum.getStatus();
-		this.desc = respStatusEnum.getDesc();
+	public static Response fail(String msg) {
+		return new Response(false,msg);
 	}
 }

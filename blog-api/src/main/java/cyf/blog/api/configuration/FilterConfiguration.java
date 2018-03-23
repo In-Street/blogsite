@@ -109,7 +109,8 @@ public class FilterConfiguration {
 
                 if(sessionId == null || redisTemplate.opsForValue().get(Constants.USER_LOGIN_KEY + sessionId) == null){
                     log.info("用户未登录");
-                    String s = FastJsonUtils.toJSONString(new Response<>(RespStatusEnum.USER_NOT_LOGIN));
+//                    String s = FastJsonUtils.toJSONString(new Response<>(RespStatusEnum.USER_NOT_LOGIN));
+                    String s = "";
                     PrintWriter writer = response.getWriter();
                     writer.print(s);
                     writer.close();

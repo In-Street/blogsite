@@ -95,8 +95,10 @@ public class ContentService {
 
     public void updateMap(Integer cid) {
         Map<String, Object> fieldMap = new HashMap<>();
-        fieldMap.put("hits", "+3");
-        fieldMap.put("comments_num", "+2");
+        String hits = "100";
+        String comments = "2000";
+        fieldMap.put("hits", hits);
+        fieldMap.put("comments_num", comments);
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("fieldMap", fieldMap);

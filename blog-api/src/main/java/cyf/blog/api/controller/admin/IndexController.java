@@ -18,7 +18,7 @@ import java.util.List;
  * @author Cheng Yufei
  * @create 2018-03-17 下午6:50
  **/
-@Controller
+@Controller("IndexController")
 @RequestMapping("/admin")
 public class IndexController {
 

@@ -26,4 +26,17 @@ public interface Constants {
      * redis中文章点击数，超过此值更新到数据库
      */
     int ARTICLE_MAX_HIT = 10;
+
+    /**
+     * 记录登录失败的次数的key
+     */
+    String ERROR_LOGIN_COUNT_KEY = "error_login_count_key_";
+    /**
+     * 允许登录失败的最大次数
+     */
+    int ERROR_LOGIN_COUNT = 2;
+    /**
+     * 登录用户session key
+     */
+    String LOGIN_SESSION_KEY = "login_user";
 }
