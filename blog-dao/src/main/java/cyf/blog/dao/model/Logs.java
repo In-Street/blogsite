@@ -9,15 +9,21 @@ import java.util.Date;
 public class Logs implements Serializable {
     private Integer id;
 
-    private String action;
-
-    private String data;
-
     private Integer authorId;
 
     private String ip;
 
     private Date created;
+
+    /**
+     * 操作类型
+     */
+    private String operateType;
+
+    /**
+     * 操作对象
+     */
+    private String operateObject;
 
     private static final long serialVersionUID = 1L;
 
@@ -27,22 +33,6 @@ public class Logs implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     public Integer getAuthorId() {
@@ -67,5 +57,21 @@ public class Logs implements Serializable {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getOperateType() {
+        return operateType;
+    }
+
+    public void setOperateType(String operateType) {
+        this.operateType = operateType;
+    }
+
+    public String getOperateObject() {
+        return operateObject;
+    }
+
+    public void setOperateObject(String operateObject) {
+        this.operateObject = operateObject;
     }
 }

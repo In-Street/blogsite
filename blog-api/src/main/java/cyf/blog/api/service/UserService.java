@@ -59,7 +59,7 @@ public class UserService {
 
         if (!CollectionUtils.isEmpty(users)) {
             stringRedisTemplate.delete(key);
-            stringRedisTemplate.opsForValue().set(Constants.LOGIN_SESSION_KEY + sessionId, JSONObject.toJSONString(users.get(0)), 1, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(Constants.LOGIN_SESSION_KEY + sessionId, JSONObject.toJSONString(users.get(0)), Constants.SESSION_LOSEEFFICACY, TimeUnit.MINUTES);
             return users.get(0);
         }
 

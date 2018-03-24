@@ -185,146 +185,6 @@ public class LogsExample {
             return (Criteria) this;
         }
 
-        public Criteria andActionIsNull() {
-            addCriterion("action is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionIsNotNull() {
-            addCriterion("action is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionEqualTo(String value) {
-            addCriterion("action =", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionNotEqualTo(String value) {
-            addCriterion("action <>", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionGreaterThan(String value) {
-            addCriterion("action >", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionGreaterThanOrEqualTo(String value) {
-            addCriterion("action >=", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionLessThan(String value) {
-            addCriterion("action <", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionLessThanOrEqualTo(String value) {
-            addCriterion("action <=", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionLike(String value) {
-            addCriterion("action like", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionNotLike(String value) {
-            addCriterion("action not like", value, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionIn(List<String> values) {
-            addCriterion("action in", values, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionNotIn(List<String> values) {
-            addCriterion("action not in", values, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionBetween(String value1, String value2) {
-            addCriterion("action between", value1, value2, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andActionNotBetween(String value1, String value2) {
-            addCriterion("action not between", value1, value2, "action");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataIsNull() {
-            addCriterion("data is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataIsNotNull() {
-            addCriterion("data is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataEqualTo(String value) {
-            addCriterion("data =", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataNotEqualTo(String value) {
-            addCriterion("data <>", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGreaterThan(String value) {
-            addCriterion("data >", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGreaterThanOrEqualTo(String value) {
-            addCriterion("data >=", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataLessThan(String value) {
-            addCriterion("data <", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataLessThanOrEqualTo(String value) {
-            addCriterion("data <=", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataLike(String value) {
-            addCriterion("data like", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataNotLike(String value) {
-            addCriterion("data not like", value, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataIn(List<String> values) {
-            addCriterion("data in", values, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataNotIn(List<String> values) {
-            addCriterion("data not in", values, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataBetween(String value1, String value2) {
-            addCriterion("data between", value1, value2, "data");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataNotBetween(String value1, String value2) {
-            addCriterion("data not between", value1, value2, "data");
-            return (Criteria) this;
-        }
-
         public Criteria andAuthorIdIsNull() {
             addCriterion("author_id is null");
             return (Criteria) this;
@@ -512,6 +372,146 @@ public class LogsExample {
 
         public Criteria andCreatedNotBetween(Date value1, Date value2) {
             addCriterion("created not between", value1, value2, "created");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeIsNull() {
+            addCriterion("operate_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeIsNotNull() {
+            addCriterion("operate_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeEqualTo(String value) {
+            addCriterion("operate_type =", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeNotEqualTo(String value) {
+            addCriterion("operate_type <>", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeGreaterThan(String value) {
+            addCriterion("operate_type >", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("operate_type >=", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeLessThan(String value) {
+            addCriterion("operate_type <", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeLessThanOrEqualTo(String value) {
+            addCriterion("operate_type <=", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeLike(String value) {
+            addCriterion("operate_type like", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeNotLike(String value) {
+            addCriterion("operate_type not like", value, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeIn(List<String> values) {
+            addCriterion("operate_type in", values, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeNotIn(List<String> values) {
+            addCriterion("operate_type not in", values, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeBetween(String value1, String value2) {
+            addCriterion("operate_type between", value1, value2, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateTypeNotBetween(String value1, String value2) {
+            addCriterion("operate_type not between", value1, value2, "operateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectIsNull() {
+            addCriterion("operate_object is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectIsNotNull() {
+            addCriterion("operate_object is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectEqualTo(String value) {
+            addCriterion("operate_object =", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectNotEqualTo(String value) {
+            addCriterion("operate_object <>", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectGreaterThan(String value) {
+            addCriterion("operate_object >", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectGreaterThanOrEqualTo(String value) {
+            addCriterion("operate_object >=", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectLessThan(String value) {
+            addCriterion("operate_object <", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectLessThanOrEqualTo(String value) {
+            addCriterion("operate_object <=", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectLike(String value) {
+            addCriterion("operate_object like", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectNotLike(String value) {
+            addCriterion("operate_object not like", value, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectIn(List<String> values) {
+            addCriterion("operate_object in", values, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectNotIn(List<String> values) {
+            addCriterion("operate_object not in", values, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectBetween(String value1, String value2) {
+            addCriterion("operate_object between", value1, value2, "operateObject");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateObjectNotBetween(String value1, String value2) {
+            addCriterion("operate_object not between", value1, value2, "operateObject");
             return (Criteria) this;
         }
     }

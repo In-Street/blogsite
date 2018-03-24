@@ -39,4 +39,17 @@ public interface Constants {
      * 登录用户session key
      */
     String LOGIN_SESSION_KEY = "login_user_";
+
+    /**
+     * 登录session失效时间（分钟）
+     */
+    int SESSION_LOSEEFFICACY = 120;
+
+    /**
+     * 操作日志记录
+     */
+    String LOGRECORD_OPERATE_TYPE = "logrecord_operate_type";
+    String LOGRECORD_OPERATE_OBJECT = "logrecord_operate_object";
+
+
 }

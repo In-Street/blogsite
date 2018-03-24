@@ -1,8 +1,12 @@
 package cyf.blog.api.configuration;
 
+import cyf.blog.base.common.Constants;
+import cyf.blog.base.enums.OperateObject;
+import cyf.blog.base.enums.OperateType;
 import cyf.blog.dao.common.AdminCommon;
 import cyf.blog.dao.common.Common;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +39,19 @@ public class Interception implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        //排除 index页的几张图片，否则handler转换报错
+        if (request.getRequestURI().contains("/admin/image")) {
+            return true;
+        }
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        LogRecord logRecord = handlerMethod.getMethodAnnotation(LogRecord.class);
+        if (null != logRecord) {
+            OperateType operaType = logRecord.operateType();
+            OperateObject object = logRecord.operateObject();
+            request.setAttribute(Constants.LOGRECORD_OPERATE_TYPE,operaType.getName());
+            request.setAttribute(Constants.LOGRECORD_OPERATE_OBJECT,object.getName());
+        }
+        System.out.println();
         return true;
     }
 
@@ -51,7 +68,7 @@ public class Interception implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         //页面中可直接${commons.site_option('site_title','My Blog')}
         request.setAttribute("commons", commons);
-        request.setAttribute("admincommon",adminCommon);
+        request.setAttribute("admincommon", adminCommon);
     }
 
     /**

@@ -1,8 +1,11 @@
 package cyf.blog.api.controller.admin;
 
+import cyf.blog.api.configuration.LogRecord;
 import cyf.blog.api.controller.BaseController;
 import cyf.blog.api.service.UserService;
 import cyf.blog.base.common.Constants;
+import cyf.blog.base.enums.OperateObject;
+import cyf.blog.base.enums.OperateType;
 import cyf.blog.base.model.Response;
 import cyf.blog.dao.model.Users;
 import org.apache.commons.lang3.StringUtils;
@@ -39,12 +42,12 @@ public class AuthController extends BaseController {
 
     @PostMapping("/toLogin")
     @ResponseBody
+    @LogRecord(operateType = OperateType.login,operateObject = OperateObject.system)
     public Response login(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) String remeber_me,
                                 HttpServletRequest request, HttpServletResponse response) {
 
         try {
             String sessionId = request.getSession().getId();
-            System.out.println(sessionId);
             String s = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + sessionId);
             if (StringUtils.isNotBlank(s)) {
                 return Response.ok();

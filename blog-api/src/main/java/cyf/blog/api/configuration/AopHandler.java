@@ -1,11 +1,17 @@
 package cyf.blog.api.configuration;
 
+import cyf.blog.base.common.Constants;
+import cyf.blog.dao.model.Logs;
 import cyf.blog.util.FastJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -68,5 +74,32 @@ public class AopHandler {
         return result;
     }
 
+    @Pointcut("execution(* cyf.blog.api.controller.admin.*Controller.*(..))")
+    public void execute() {
+    }
+    /**
+     * 后台存储操纵日志
+     */
+    @Before("execute()")
+    public void logRecord() {
 
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String requestURI = request.getRequestURI();
+        Object operateType = request.getAttribute(Constants.LOGRECORD_OPERATE_TYPE);
+        Object operateObject = request.getAttribute(Constants.LOGRECORD_OPERATE_OBJECT);
+        if (null != operateType && null!=operateObject) {
+
+        }
+    }
+
+    private void saveLogs(String operateType,String operaObject,Integer authorId,String ip) {
+        Logs logs = new Logs();
+        logs.setOperateType(operateType);
+        logs.setOperateObject(operaObject);
+        logs.setAuthorId(authorId);
+        logs.setIp(ip);
+
+
+
+    }
 }
