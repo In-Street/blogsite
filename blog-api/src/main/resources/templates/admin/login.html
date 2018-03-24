@@ -98,7 +98,7 @@
     var tale = new $.tale();
     function checkForm() {
         tale.post({
-            url: '/auth/login',
+            url: '/auth/toLogin',
             data: $("#loginForm").serialize(),
             success: function (result) {
                 if (result && result.success) {

@@ -35,6 +35,14 @@ public class UserService {
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             throw new RuntimeException("用户名或密码为空");
         }
+
+        //密码输错key
+        String key = Constants.ERROR_LOGIN_COUNT_KEY + username;
+        BoundValueOperations<String, String> bound = stringRedisTemplate.boundValueOps(key);
+        if (bound.getExpire() > 0) {
+            throw new RuntimeException("输错密码已达3次，1分钟后再试");
+        }
+
         String pwd = TextUtil.MD5encode(username + password);
         UsersExample usersExample = new UsersExample();
         UsersExample.Criteria criteria = usersExample.createCriteria();
@@ -42,13 +50,6 @@ public class UserService {
         long count = usersMapper.countByExample(usersExample);
         if (count == 0) {
             throw new RuntimeException("用户名不存在");
-        }
-
-        //密码输错key
-        String key = Constants.ERROR_LOGIN_COUNT_KEY + username;
-        BoundValueOperations<String, String> bound = stringRedisTemplate.boundValueOps(key);
-        if (bound.getExpire() > 0) {
-            throw new RuntimeException("输错密码已达3次，1分钟后再试");
         }
 
         usersExample.clear();

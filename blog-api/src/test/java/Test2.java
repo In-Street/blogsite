@@ -15,4 +15,11 @@ public class Test2 {
         System.out.println(res);
     }
 
+    @Test
+    public void t2() {
+        String encode = TextUtil.MD5encode("cyf123");
+        System.out.println(encode);
+    }
+
+
 }

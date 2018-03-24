@@ -2,11 +2,8 @@ package cyf.blog.api.configuration;
 
 
 import cyf.blog.base.common.Constants;
-import cyf.blog.base.enums.RespStatusEnum;
 import cyf.blog.base.model.Header;
 import cyf.blog.base.model.LocalData;
-import cyf.blog.base.model.Response;
-import cyf.blog.util.FastJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +15,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Field;
 
 /**
@@ -105,29 +100,36 @@ public class FilterConfiguration {
         Filter filter = new OncePerRequestFilter() {
             @Override
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-               /* String requestURI = request.getRequestURI();
-                if (requestURI.contains("auth/login")) {
-                    filterChain.doFilter(request,response);
-                }*/
                 String sessionId = request.getSession().getId();
-                log.debug("sessionId:{}",sessionId);
+                log.info("sessionId:{}", sessionId);
                 String loginSession = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + sessionId);
                 log.info("登陆过滤器 session={}", loginSession);
+                String requestURI = request.getRequestURI();
+
                 if (loginSession == null) {
                     log.info("用户未登录");
-                    /*RequestDispatcher dispatcher = request.getRequestDispatcher("auth/login");
-                    dispatcher.forward(request, response);*/
-                    response.sendRedirect("/auth/login");
-                    return;
+                    if (requestURI.equals("/auth/login")) {
+                        filterChain.doFilter(request, response);
+                    } else {
+                        response.sendRedirect("/auth/login");
+                    }
+                } else {
+                    //已登录情况下，访问登录页直接跳转admin/index
+                    if (requestURI.equals("/auth/login")) {
+                        response.sendRedirect("/admin");
+                    } else {
+                        filterChain.doFilter(request, response);
+                    }
                 }
-                filterChain.doFilter(request, response);
             }
         };
 
         registration.setFilter(filter);
 
         String[] urlPattern = new String[]{
-                "/admin/*"
+                "/admin",
+                "/admin/index",
+                "/auth/login",
         };
         registration.setEnabled(true);
         registration.addUrlPatterns(urlPattern);

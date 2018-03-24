@@ -37,7 +37,7 @@ public class AuthController extends BaseController {
         return skip("login.html");
     }
 
-    @PostMapping("/login")
+    @PostMapping("/toLogin")
     @ResponseBody
     public Response login(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) String remeber_me,
                                 HttpServletRequest request, HttpServletResponse response) {
