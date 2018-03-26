@@ -11,6 +11,8 @@ public class Logs implements Serializable {
 
     private Integer authorId;
 
+    private String authorName;
+
     private String ip;
 
     private Date created;
@@ -24,6 +26,8 @@ public class Logs implements Serializable {
      * 操作对象
      */
     private String operateObject;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +45,14 @@ public class Logs implements Serializable {
 
     public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public String getIp() {
@@ -73,5 +85,13 @@ public class Logs implements Serializable {
 
     public void setOperateObject(String operateObject) {
         this.operateObject = operateObject;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -75,21 +75,25 @@ public class AopHandler {
     }
 
     @Pointcut("execution(* cyf.blog.api.controller.admin.*Controller.*(..))")
-    public void execute() {
-    }
+    public void execute() {}
     /**
      * 后台存储操纵日志
      */
-    @Before("execute()")
-    public void logRecord() {
+    @Around("@annotation(logRecord)")
+    public void logRecord(ProceedingJoinPoint joinPoint,LogRecord logRecord) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String requestURI = request.getRequestURI();
+        Object proceed = joinPoint.proceed();
         Object operateType = request.getAttribute(Constants.LOGRECORD_OPERATE_TYPE);
         Object operateObject = request.getAttribute(Constants.LOGRECORD_OPERATE_OBJECT);
         if (null != operateType && null!=operateObject) {
 
         }
+
+
+
+
     }
 
     private void saveLogs(String operateType,String operaObject,Integer authorId,String ip) {
@@ -98,7 +102,7 @@ public class AopHandler {
         logs.setOperateObject(operaObject);
         logs.setAuthorId(authorId);
         logs.setIp(ip);
-
+//        logs.setAuthorName();
 
 
     }

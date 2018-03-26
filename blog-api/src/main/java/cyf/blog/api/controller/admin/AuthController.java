@@ -62,5 +62,12 @@ public class AuthController extends BaseController {
         return Response.ok();
     }
 
+    @GetMapping("/logout")
+    public Response logout(HttpServletRequest request) {
+        String sessionId = request.getSession().getId();
+
+        String s = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + sessionId);
+        return Response.ok();
+    }
 
 }

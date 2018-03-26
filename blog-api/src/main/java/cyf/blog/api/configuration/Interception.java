@@ -5,6 +5,7 @@ import cyf.blog.base.enums.OperateObject;
 import cyf.blog.base.enums.OperateType;
 import cyf.blog.dao.common.AdminCommon;
 import cyf.blog.dao.common.Common;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,6 +27,10 @@ public class Interception implements HandlerInterceptor {
     private Common commons;
     @Resource
     private AdminCommon adminCommon;
+    /**
+     * 不拦截的静态文件
+     */
+    private static String[] preHandle = new String[]{"/admin/image","/admin/js","/admin/css","/admin/plugins"};
 
     /**
      * 调用处理程序之前
@@ -39,8 +44,10 @@ public class Interception implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        String requestURI = request.getRequestURI();
+
         //排除 index页的几张图片，否则handler转换报错
-        if (request.getRequestURI().contains("/admin/image")) {
+        if (StringUtils.containsAny(requestURI,preHandle)) {
             return true;
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;

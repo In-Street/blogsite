@@ -4,10 +4,12 @@
   <resultMap id="BaseResultMap" type="cyf.blog.dao.model.Logs">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="author_id" jdbcType="INTEGER" property="authorId" />
+    <result column="author_name" jdbcType="VARCHAR" property="authorName" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="operate_type" jdbcType="CHAR" property="operateType" />
     <result column="operate_object" jdbcType="CHAR" property="operateObject" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, author_id, ip, created, operate_type, operate_object
+    id, author_id, author_name, ip, created, operate_type, operate_object, remark
   </sql>
   <select id="selectByExample" parameterType="cyf.blog.dao.model.LogsExample" resultMap="BaseResultMap">
     select
@@ -112,10 +114,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_logs (author_id, ip, created, 
-      operate_type, operate_object)
-    values (#{authorId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
-      #{operateType,jdbcType=CHAR}, #{operateObject,jdbcType=CHAR})
+    insert into t_logs (author_id, author_name, ip, 
+      created, operate_type, operate_object, 
+      remark)
+    values (#{authorId,jdbcType=INTEGER}, #{authorName,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{operateType,jdbcType=CHAR}, #{operateObject,jdbcType=CHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cyf.blog.dao.model.Logs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -125,6 +129,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="authorId != null">
         author_id,
+      </if>
+      <if test="authorName != null">
+        author_name,
       </if>
       <if test="ip != null">
         ip,
@@ -138,10 +145,16 @@
       <if test="operateObject != null">
         operate_object,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="authorId != null">
         #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="authorName != null">
+        #{authorName,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -154,6 +167,9 @@
       </if>
       <if test="operateObject != null">
         #{operateObject,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -172,6 +188,9 @@
       <if test="record.authorId != null">
         author_id = #{record.authorId,jdbcType=INTEGER},
       </if>
+      <if test="record.authorName != null">
+        author_name = #{record.authorName,jdbcType=VARCHAR},
+      </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
@@ -184,6 +203,9 @@
       <if test="record.operateObject != null">
         operate_object = #{record.operateObject,jdbcType=CHAR},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -193,10 +215,12 @@
     update t_logs
     set id = #{record.id,jdbcType=INTEGER},
       author_id = #{record.authorId,jdbcType=INTEGER},
+      author_name = #{record.authorName,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
       created = #{record.created,jdbcType=TIMESTAMP},
       operate_type = #{record.operateType,jdbcType=CHAR},
-      operate_object = #{record.operateObject,jdbcType=CHAR}
+      operate_object = #{record.operateObject,jdbcType=CHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -206,6 +230,9 @@
     <set>
       <if test="authorId != null">
         author_id = #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="authorName != null">
+        author_name = #{authorName,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
@@ -219,16 +246,21 @@
       <if test="operateObject != null">
         operate_object = #{operateObject,jdbcType=CHAR},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cyf.blog.dao.model.Logs">
     update t_logs
     set author_id = #{authorId,jdbcType=INTEGER},
+      author_name = #{authorName,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
       operate_type = #{operateType,jdbcType=CHAR},
-      operate_object = #{operateObject,jdbcType=CHAR}
+      operate_object = #{operateObject,jdbcType=CHAR},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="selfPlusMinus">
