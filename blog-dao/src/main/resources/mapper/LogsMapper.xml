@@ -9,6 +9,7 @@
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="operate_type" jdbcType="CHAR" property="operateType" />
     <result column="operate_object" jdbcType="CHAR" property="operateObject" />
+    <result column="operate_result" jdbcType="CHAR" property="operateResult" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, author_id, author_name, ip, created, operate_type, operate_object, remark
+    id, author_id, author_name, ip, created, operate_type, operate_object, operate_result, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="cyf.blog.dao.model.LogsExample" resultMap="BaseResultMap">
     select
@@ -116,10 +118,10 @@
     </selectKey>
     insert into t_logs (author_id, author_name, ip, 
       created, operate_type, operate_object, 
-      remark)
+      operate_result, remark)
     values (#{authorId,jdbcType=INTEGER}, #{authorName,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
       #{created,jdbcType=TIMESTAMP}, #{operateType,jdbcType=CHAR}, #{operateObject,jdbcType=CHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{operateResult,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cyf.blog.dao.model.Logs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -145,6 +147,9 @@
       <if test="operateObject != null">
         operate_object,
       </if>
+      <if test="operateResult != null">
+        operate_result,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -167,6 +172,9 @@
       </if>
       <if test="operateObject != null">
         #{operateObject,jdbcType=CHAR},
+      </if>
+      <if test="operateResult != null">
+        #{operateResult,jdbcType=CHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -203,6 +211,9 @@
       <if test="record.operateObject != null">
         operate_object = #{record.operateObject,jdbcType=CHAR},
       </if>
+      <if test="record.operateResult != null">
+        operate_result = #{record.operateResult,jdbcType=CHAR},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -220,6 +231,7 @@
       created = #{record.created,jdbcType=TIMESTAMP},
       operate_type = #{record.operateType,jdbcType=CHAR},
       operate_object = #{record.operateObject,jdbcType=CHAR},
+      operate_result = #{record.operateResult,jdbcType=CHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -246,6 +258,9 @@
       <if test="operateObject != null">
         operate_object = #{operateObject,jdbcType=CHAR},
       </if>
+      <if test="operateResult != null">
+        operate_result = #{operateResult,jdbcType=CHAR},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -260,6 +275,7 @@
       created = #{created,jdbcType=TIMESTAMP},
       operate_type = #{operateType,jdbcType=CHAR},
       operate_object = #{operateObject,jdbcType=CHAR},
+      operate_result = #{operateResult,jdbcType=CHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

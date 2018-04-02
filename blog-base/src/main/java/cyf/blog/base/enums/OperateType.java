@@ -22,14 +22,14 @@ public enum OperateType {
         this.name = name;
     }
 
-    public OperateType get(Integer code) {
+    public static OperateType get(Integer code) {
         if (null == code) {
             return null;
         }
         OperateType[] values = OperateType.values();
         for (OperateType value : values) {
-            if (code.equals(value.code)) {
-                return value.get(code);
+            if (code.equals(value.getCode())) {
+                return value;
             }
         }
         return null;

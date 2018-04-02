@@ -27,6 +27,8 @@ public class Logs implements Serializable {
      */
     private String operateObject;
 
+    private String operateResult;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -85,6 +87,14 @@ public class Logs implements Serializable {
 
     public void setOperateObject(String operateObject) {
         this.operateObject = operateObject;
+    }
+
+    public String getOperateResult() {
+        return operateResult;
+    }
+
+    public void setOperateResult(String operateResult) {
+        this.operateResult = operateResult;
     }
 
     public String getRemark() {

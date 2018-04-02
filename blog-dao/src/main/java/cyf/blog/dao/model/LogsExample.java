@@ -585,6 +585,76 @@ public class LogsExample {
             return (Criteria) this;
         }
 
+        public Criteria andOperateResultIsNull() {
+            addCriterion("operate_result is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultIsNotNull() {
+            addCriterion("operate_result is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultEqualTo(String value) {
+            addCriterion("operate_result =", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultNotEqualTo(String value) {
+            addCriterion("operate_result <>", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultGreaterThan(String value) {
+            addCriterion("operate_result >", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultGreaterThanOrEqualTo(String value) {
+            addCriterion("operate_result >=", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultLessThan(String value) {
+            addCriterion("operate_result <", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultLessThanOrEqualTo(String value) {
+            addCriterion("operate_result <=", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultLike(String value) {
+            addCriterion("operate_result like", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultNotLike(String value) {
+            addCriterion("operate_result not like", value, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultIn(List<String> values) {
+            addCriterion("operate_result in", values, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultNotIn(List<String> values) {
+            addCriterion("operate_result not in", values, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultBetween(String value1, String value2) {
+            addCriterion("operate_result between", value1, value2, "operateResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateResultNotBetween(String value1, String value2) {
+            addCriterion("operate_result not between", value1, value2, "operateResult");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

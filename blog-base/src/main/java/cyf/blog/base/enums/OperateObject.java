@@ -22,14 +22,14 @@ public enum OperateObject {
         this.name = name;
     }
 
-    public OperateObject get(Integer code) {
+    public static OperateObject get(Integer code) {
         if (null == code) {
             return null;
         }
         OperateObject[] values = OperateObject.values();
         for (OperateObject value : values) {
             if (code.equals(value.code)) {
-                return value.get(code);
+                return value;
             }
         }
         return null;

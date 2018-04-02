@@ -55,8 +55,8 @@ public class Interception implements HandlerInterceptor {
         if (null != logRecord) {
             OperateType operaType = logRecord.operateType();
             OperateObject object = logRecord.operateObject();
-            request.setAttribute(Constants.LOGRECORD_OPERATE_TYPE,operaType.getName());
-            request.setAttribute(Constants.LOGRECORD_OPERATE_OBJECT,object.getName());
+            request.setAttribute(Constants.LOGRECORD_OPERATE_TYPE,operaType.getCode());
+            request.setAttribute(Constants.LOGRECORD_OPERATE_OBJECT,object.getCode());
         }
         System.out.println();
         return true;
