@@ -52,10 +52,7 @@ public class AuthController extends BaseController {
             if (StringUtils.isNotBlank(s)) {
                 return Response.ok();
             }
-            Users loginUser = userService.login(username, password,sessionId);
-            request.getSession().setAttribute("", loginUser);
-            //记录登录日志
-
+           userService.login(username, password,sessionId);
         } catch (Exception e) {
             return Response.fail(e.getMessage());
         }

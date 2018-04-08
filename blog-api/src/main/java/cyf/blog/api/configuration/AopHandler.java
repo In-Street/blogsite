@@ -20,6 +20,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -47,6 +48,8 @@ public class AopHandler {
     private LogsMapper logsMapper;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private AsyncTaskExecutor asyncTaskExecutor;
 
     /**
      * 打印Controller层日志
@@ -100,44 +103,60 @@ public class AopHandler {
      * 后台存储操纵日志
      */
     @Around("@annotation(logRecord)")
-    public void logRecord(ProceedingJoinPoint joinPoint, LogRecord logRecord) throws Throwable {
+    public Object logRecord(ProceedingJoinPoint joinPoint, LogRecord logRecord) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String requestURI = request.getRequestURI();
         Object[] args = joinPoint.getArgs();
         Object proceed = joinPoint.proceed();
-        boolean success = ((Response) proceed).isSuccess();
-        int authorId = 0;
-        String authorName = null;
-        if (requestURI.contains("/toLogin")) {
-            String username = (String) args[0];
-            UsersExample usersExample = new UsersExample();
-            usersExample.setLimit(1);
-            UsersExample.Criteria criteria = usersExample.createCriteria();
-            criteria.andUsernameEqualTo(username);
-            List<Users> users = usersMapper.selectByExample(usersExample);
-            if (!CollectionUtils.isEmpty(users)) {
-                authorId = users.get(0).getUid();
-                authorName = users.get(0).getUsername();
-            }
-        } else {
-            String s = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + request.getSession().getId());
-            Users users =  JSONObject.parseObject(s, Users.class);
-            authorId = users.getUid();
-            authorName = users.getUsername();
-        }
 
         Integer operateType = (Integer) request.getAttribute(Constants.LOGRECORD_OPERATE_TYPE);
         Integer operateObject = (Integer) request.getAttribute(Constants.LOGRECORD_OPERATE_OBJECT);
+        boolean success = ((Response) proceed).isSuccess();
         OperateResult operateResult = success ? OperateResult.success : OperateResult.fail;
-        if (null != operateType && null != operateObject) {
-            saveLogs(OperateType.get(operateType).toString(), OperateObject.get(operateObject).toString(),authorId,authorName,IpUtil.getClientIp(request), operateResult.toString() );
-        }
 
-
+        asyncTaskExecutor.submit(new Runnable() {
+            @Override
+            public void run() {
+                log.info("-----------------异步(" + Thread.currentThread().getName() + "): 操作日志存储----------------------");
+                int authorId = 0;
+                String authorName = null;
+                if (requestURI.contains("/toLogin")) {
+                    String username = (String) args[0];
+                    UsersExample usersExample = new UsersExample();
+                    usersExample.setLimit(1);
+                    UsersExample.Criteria criteria = usersExample.createCriteria();
+                    criteria.andUsernameEqualTo(username);
+                    List<Users> users = usersMapper.selectByExample(usersExample);
+                    if (!CollectionUtils.isEmpty(users)) {
+                        authorId = users.get(0).getUid();
+                        authorName = users.get(0).getUsername();
+                    }
+                } else {
+                    String s = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + request.getSession().getId());
+                    Users users = JSONObject.parseObject(s, Users.class);
+                    authorId = users.getUid();
+                    authorName = users.getUsername();
+                }
+                if (null != operateType && null != operateObject) {
+                    saveLogs(OperateType.get(operateType).toString(), OperateObject.get(operateObject).toString(), authorId, authorName, IpUtil.getClientIp(request), operateResult.toString());
+                }
+            }
+        });
+        return proceed;
     }
 
-    private void saveLogs(String operateType, String operaObject, Integer authorId, String authorName,String ip,String operateResult ) {
+    /**
+     * 操作日志存储
+     *
+     * @param operateType
+     * @param operaObject
+     * @param authorId
+     * @param authorName
+     * @param ip
+     * @param operateResult
+     */
+    private void saveLogs(String operateType, String operaObject, Integer authorId, String authorName, String ip, String operateResult) {
         Logs logs = new Logs();
         logs.setOperateType(operateType);
         logs.setOperateObject(operaObject);

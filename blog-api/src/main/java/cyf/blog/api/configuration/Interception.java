@@ -30,7 +30,7 @@ public class Interception implements HandlerInterceptor {
     /**
      * 不拦截的静态文件
      */
-    private static String[] preHandle = new String[]{"/admin/image","/admin/js","/admin/css","/admin/plugins"};
+    private static String[] preHandle = new String[]{"/admin/image","/admin/js","/admin/css","/admin/plugins","/user/css","/user/img"};
 
     /**
      * 调用处理程序之前

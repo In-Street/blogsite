@@ -3,6 +3,7 @@ package cyf.blog.api;
 import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * boot入口
@@ -12,6 +13,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication(
         scanBasePackages = {"cyf.blog.api", "cyf.blog.dao","cyf.blog.base"}
 )
+@EnableAsync
 public class ApiApplication {
 
     public static void main(String[] args) {

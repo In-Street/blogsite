@@ -103,7 +103,7 @@
                                 <div class="panel-body">
                                     <ul class="list-group" >
                                         <li class="list-group-item" th:each="log : ${logs}">
-                                            <span th:text="${#dates.format(log.created,'yyyy-MM-dd HH:mm:ss')} +' => '+ ${log.action}"></span>
+                                            <span th:text="${#dates.format(log.created,'yyyy-MM-dd HH:mm:ss')} +' ： '+${log.authorName}+'　 进行　 '+ ${log.operateType}+ '                      '+${log.operateObject}+'　 =>　 ' + ${log.operateResult}"></span>
                                         </li>
                                     </ul>
                                 </div>
