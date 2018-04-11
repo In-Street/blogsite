@@ -8,6 +8,8 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -18,6 +20,15 @@ import java.util.List;
  * @create 2018-03-10 11:15
  **/
 public class TextUtil {
+
+
+    /**
+     * aes加密加盐
+     */
+    private static String AES_SALT = "0123456789abcdef";
+
+    private static final String USER_IN_COOKIE = "S_L_ID";
+
 
     /**
      * markdown转换为html
@@ -63,5 +74,25 @@ public class TextUtil {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    /**
+     * 设置记住密码cookie
+     *
+     * @param response
+     * @param uid
+     */
+    public static void setCookie(HttpServletResponse response, Integer uid) {
+        try {
+            String val = Tools.enAes(uid.toString(), AES_SALT);
+            boolean isSSL = false;
+            Cookie cookie = new Cookie(USER_IN_COOKIE, val);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 30);
+            cookie.setSecure(isSSL);
+            response.addCookie(cookie);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

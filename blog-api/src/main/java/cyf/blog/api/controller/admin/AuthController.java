@@ -8,6 +8,7 @@ import cyf.blog.base.enums.OperateObject;
 import cyf.blog.base.enums.OperateType;
 import cyf.blog.base.model.Response;
 import cyf.blog.dao.model.Users;
+import cyf.blog.util.TextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author Cheng Yufei
@@ -42,9 +44,9 @@ public class AuthController extends BaseController {
 
     @PostMapping("/toLogin")
     @ResponseBody
-    @LogRecord(operateType = OperateType.login,operateObject = OperateObject.system)
+    @LogRecord(operateType = OperateType.login, operateObject = OperateObject.system)
     public Response login(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) String remeber_me,
-                                HttpServletRequest request, HttpServletResponse response) {
+                          HttpServletRequest request, HttpServletResponse response) {
 
         try {
             String sessionId = request.getSession().getId();
@@ -52,19 +54,30 @@ public class AuthController extends BaseController {
             if (StringUtils.isNotBlank(s)) {
                 return Response.ok();
             }
-           userService.login(username, password,sessionId);
+            userService.login(username, password, sessionId);
+         /*   if (StringUtils.isNotBlank(remeber_me)) {
+                TextUtil.setCookie(response, login.getUid());
+            }*/
         } catch (Exception e) {
             return Response.fail(e.getMessage());
         }
         return Response.ok();
     }
 
+    /**
+     * 注销
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @GetMapping("/logout")
-    public Response logout(HttpServletRequest request) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String sessionId = request.getSession().getId();
-
-        String s = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + sessionId);
-        return Response.ok();
+        Boolean delete = stringRedisTemplate.delete(Constants.LOGIN_SESSION_KEY + sessionId);
+        if (delete) {
+            response.sendRedirect("/auth/login");
+        } else {
+            throw new IOException("注销失败");
+        }
     }
-
 }
