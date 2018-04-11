@@ -1,5 +1,10 @@
 package cyf.blog.api.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import cyf.blog.base.common.Constants;
+import cyf.blog.dao.model.Users;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -13,9 +18,9 @@ public abstract class BaseController {
     public static String background = "admin";
 
 
-
     /**
      * 主页的页面主题
+     *
      * @param viewName
      * @return
      */
@@ -25,6 +30,7 @@ public abstract class BaseController {
 
     /**
      * 后台页面跳转
+     *
      * @param viewName
      * @return
      */
@@ -41,9 +47,18 @@ public abstract class BaseController {
         return "comm/error_404";
     }
 
-
-
-
+    /**
+     * 获取登录用户
+     * @param stringRedisTemplate
+     * @param request
+     * @return
+     */
+    public Users getLoginUser(StringRedisTemplate stringRedisTemplate, HttpServletRequest request) {
+        String sessionId = request.getSession().getId();
+        String s = stringRedisTemplate.opsForValue().get(Constants.LOGIN_SESSION_KEY + sessionId);
+        Users users = JSONObject.parseObject(s, Users.class);
+        return users;
+    }
 
 
 }
