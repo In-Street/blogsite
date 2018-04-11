@@ -50,4 +50,13 @@ public class MetaService {
 
 
     }
+
+    public  List<Metas> categories(Integer code) {
+
+        MetasExample metasExample = new MetasExample();
+        metasExample.setOrderByClause("sort desc,mid desc");
+        metasExample.createCriteria().andTypeEqualTo(code);
+        List<Metas> metas = metasMapper.selectByExample(metasExample);
+        return metas;
+    }
 }

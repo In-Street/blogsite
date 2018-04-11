@@ -7,8 +7,6 @@ import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.OperateObject;
 import cyf.blog.base.enums.OperateType;
 import cyf.blog.base.model.Response;
-import cyf.blog.dao.model.Users;
-import cyf.blog.util.TextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
