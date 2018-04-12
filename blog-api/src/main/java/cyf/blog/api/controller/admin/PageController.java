@@ -107,4 +107,51 @@ public class PageController extends BaseController {
         }
         return Response.ok();
     }
+
+    /**
+     * 添加新页面 跳转
+     * @return
+     */
+    @GetMapping(value = "new")
+    public String newPage() {
+        return "admin/page_edit";
+    }
+
+    /**
+     * new page  - 发布
+     * @param title
+     * @param content
+     * @param status
+     * @param slug
+     * @param allowComment
+     * @param allowPing
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "publish")
+    @ResponseBody
+    public Response publishPage(@RequestParam String title, @RequestParam String content,
+                                      @RequestParam String status, @RequestParam String slug,
+                                      @RequestParam(required = false) Integer allowComment, @RequestParam(required = false) Integer allowPing, HttpServletRequest request) {
+
+        Users loginUser = getLoginUser(stringRedisTemplate, request);
+        Contents contents = new Contents();
+        contents.setTitle(title);
+        contents.setContent(content);
+        contents.setStatus(Integer.valueOf(status));
+        contents.setSlug(slug);
+        contents.setType(ContentType.page.getCode());
+        if (null != allowComment) {
+            contents.setAllowComment(allowComment == 1);
+        }
+        if (null != allowPing) {
+            contents.setAllowPing(allowPing == 1);
+        }
+        contents.setAuthorId(loginUser.getUid());
+        String result = contentService.publish(contents);
+        if (!Constants.SUCCESS_RESULT.equals(result)) {
+            return Response.fail(result);
+        }
+        return Response.ok();
+    }
 }
