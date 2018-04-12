@@ -115,8 +115,21 @@ public class ArticleController extends BaseController {
         request.setAttribute("is_post", true);
 //        completeArticle(request, contents);
         return this.render("post");
-
-
     }
 
+    /**
+     * admin - 文章删除
+     * @param cid
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/delete")
+    @ResponseBody
+    public Response delete(@RequestParam int cid, HttpServletRequest request) {
+        String result = contentService.deleteByCid(cid);
+        if (!Constants.SUCCESS_RESULT.equals(result)) {
+            return Response.fail(result);
+        }
+        return Response.ok();
+    }
 }

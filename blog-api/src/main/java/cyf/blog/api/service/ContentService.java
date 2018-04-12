@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
@@ -37,6 +38,9 @@ public class ContentService {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private MetaService metaService;
+    @Autowired
+    private RelationshipService relationshipService;
+
 
     public PageInfo getContents(int pageNum, int pageSize) {
         ContentsExample example = new ContentsExample();
@@ -70,7 +74,7 @@ public class ContentService {
     }
 
 
-    public PageInfo getContentsByCids(int pageNum, int pageSize,List<Integer> cids) {
+    public PageInfo getContentsByCids(int pageNum, int pageSize, List<Integer> cids) {
         ContentsExample example = new ContentsExample();
         example.setOrderByClause("created desc,cid");
         example.createCriteria().andStatusEqualTo(ContentStatus.publish.getCode()).andTypeEqualTo(ContentType.post.getCode()).andCidIn(cids);
@@ -79,7 +83,6 @@ public class ContentService {
         PageInfo<Contents> pageInfo = new PageInfo<>(contents);
         return pageInfo;
     }
-
 
 
     /**
@@ -99,6 +102,7 @@ public class ContentService {
 
     /**
      * admin - 更新文章
+     *
      * @param contents
      * @return
      */
@@ -132,6 +136,22 @@ public class ContentService {
         metaService.saveMetas(cid, contents.getCategories(), MetaType.category.getCode());
         return Constants.SUCCESS_RESULT;
     }
+
+    /**
+     * admin - 删除文章
+     *
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String deleteByCid(Integer contentId) {
+
+        int result = contentsMapper.deleteByPrimaryKey(contentId);
+        if (result > 0) {
+            relationshipService.deleteByCid(contentId);
+        }
+        return Constants.SUCCESS_RESULT;
+    }
+
 
     public void updateMap(Integer cid) {
         Map<String, Object> fieldMap = new HashMap<>();
