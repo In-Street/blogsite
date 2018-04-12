@@ -154,4 +154,14 @@ public class PageController extends BaseController {
         }
         return Response.ok();
     }
+
+    @RequestMapping(value = "delete")
+    @ResponseBody
+    public Response delete(@RequestParam int cid) {
+        String result = contentService.deleteByCid(cid);
+        if (!Constants.SUCCESS_RESULT.equals(result)) {
+            return Response.fail(result);
+        }
+        return Response.ok();
+    }
 }
