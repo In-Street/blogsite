@@ -2,7 +2,6 @@ package cyf.blog.api.service;
 
 import cyf.blog.dao.mapper.RelationshipsMapper;
 import cyf.blog.dao.model.RelationshipsExample;
-import cyf.blog.dao.model.RelationshipsKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
