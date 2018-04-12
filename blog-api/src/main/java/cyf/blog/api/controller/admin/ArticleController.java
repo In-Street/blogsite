@@ -12,6 +12,7 @@ import cyf.blog.base.model.Response;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.Metas;
 import cyf.blog.dao.model.Users;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -127,6 +128,40 @@ public class ArticleController extends BaseController {
     @ResponseBody
     public Response delete(@RequestParam int cid, HttpServletRequest request) {
         String result = contentService.deleteByCid(cid);
+        if (!Constants.SUCCESS_RESULT.equals(result)) {
+            return Response.fail(result);
+        }
+        return Response.ok();
+    }
+
+    /**
+     * 跳转文章发布页
+     * @param request
+     * @return
+     */
+    @GetMapping(value = "/publish")
+    public String newArticle(HttpServletRequest request) {
+        List<Metas> categories = metaService.categories(MetaType.category.getCode());
+        request.setAttribute("categories", categories);
+        return "admin/article_edit";
+    }
+
+    /**
+     * 文章发布
+     * @param contents
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "/publish")
+    @ResponseBody
+    public Response publishArticle(Contents contents, HttpServletRequest request) {
+        Users users = getLoginUser(stringRedisTemplate, request);
+        contents.setAuthorId(users.getUid());
+        contents.setType(ContentType.post.getCode());
+        if (StringUtils.isBlank(contents.getCategories())) {
+            contents.setCategories("默认分类");
+        }
+        String result = contentService.publish(contents);
         if (!Constants.SUCCESS_RESULT.equals(result)) {
             return Response.fail(result);
         }

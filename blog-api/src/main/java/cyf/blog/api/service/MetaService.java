@@ -72,7 +72,7 @@ public class MetaService {
      * @param type
      * @return
      */
-    @Transactional(rollbackFor = Exception.class)
+
     public void saveMetas(Integer contentId, String names, Integer type) {
 
         if (StringUtils.isNotBlank(names) && Objects.nonNull(type)) {

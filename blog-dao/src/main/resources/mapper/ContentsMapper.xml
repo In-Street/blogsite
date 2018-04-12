@@ -151,13 +151,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cyf.blog.dao.model.Contents">
-    insert into t_contents (cid, title, slug,
+    <selectKey keyProperty="cid" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_contents (title, slug,
     created, modified, author_id,
     type, status, tags,
     categories, hits, comments_num,
     allow_comment, allow_ping, allow_feed,
     content)
-    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
+    values (#{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
     #{created,jdbcType=TIMESTAMP}, #{modified,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER},
     #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{tags,jdbcType=VARCHAR},
     #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{commentsNum,jdbcType=INTEGER},
@@ -165,11 +168,12 @@
     #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cyf.blog.dao.model.Contents">
+    <selectKey keyProperty="cid" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_contents
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cid != null">
-        cid,
-      </if>
+
       <if test="title != null">
         title,
       </if>

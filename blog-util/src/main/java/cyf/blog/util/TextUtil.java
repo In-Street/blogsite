@@ -14,6 +14,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Cheng Yufei
@@ -28,6 +30,8 @@ public class TextUtil {
     private static String AES_SALT = "0123456789abcdef";
 
     private static final String USER_IN_COOKIE = "S_L_ID";
+
+    private static final Pattern SLUG_REGEX = Pattern.compile("^[A-Za-z0-9_-]{5,100}$", Pattern.CASE_INSENSITIVE);
 
 
     /**
@@ -94,5 +98,22 @@ public class TextUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 判断是否是合法路径
+     *
+     * @param slug
+     * @return
+     */
+    public static boolean isPath(String slug) {
+        if (StringUtils.isNotBlank(slug)) {
+            if (slug.contains("/") || slug.contains(" ") || slug.contains(".")) {
+                return false;
+            }
+            Matcher matcher = SLUG_REGEX.matcher(slug);
+            return matcher.find();
+        }
+        return false;
     }
 }

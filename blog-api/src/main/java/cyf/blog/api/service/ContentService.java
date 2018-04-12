@@ -10,6 +10,7 @@ import cyf.blog.base.enums.db.MetaType;
 import cyf.blog.dao.mapper.ContentsMapper;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.ContentsExample;
+import cyf.blog.util.TextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,7 @@ public class ContentService {
      * @param contents
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     public String updateArticle(Contents contents) {
         if (null == contents) {
             return "文章对象为空";
@@ -152,6 +154,55 @@ public class ContentService {
         return Constants.SUCCESS_RESULT;
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public String publish(Contents contents) {
+        if (null == contents) {
+            return "文章对象为空";
+        }
+        if (StringUtils.isBlank(contents.getTitle())) {
+            return "文章标题不能为空";
+        }
+        if (StringUtils.isBlank(contents.getContent())) {
+            return "文章内容不能为空";
+        }
+        int titleLength = contents.getTitle().length();
+        if (titleLength > Constants.MAX_TITLE_COUNT) {
+            return "文章标题过长";
+        }
+        int contentLength = contents.getContent().length();
+        if (contentLength > Constants.MAX_TEXT_COUNT) {
+            return "文章内容过长";
+        }
+        if (StringUtils.isNotBlank(contents.getSlug())) {
+            if (contents.getSlug().length() < 5) {
+                return "路径太短了";
+            }
+            if (!TextUtil.isPath(contents.getSlug())) {
+                return "您输入的路径不合法";
+            }
+            ContentsExample contentsExample = new ContentsExample();
+            contentsExample.createCriteria().andTypeEqualTo(contents.getType()).andSlugEqualTo(contents.getSlug());
+            long count = contentsMapper.countByExample(contentsExample);
+            if (count > 0) {
+                return "该路径已经存在，请重新输入";
+            }
+        } else {
+            contents.setSlug(null);
+        }
+
+        contents.setContent(EmojiParser.parseToAliases(contents.getContent()));
+
+        contents.setHits(0);
+        contents.setCommentsNum(0);
+
+        String tags = contents.getTags();
+        String categories = contents.getCategories();
+        contentsMapper.insertSelective(contents);
+        Integer cid = contents.getCid();
+        metaService.saveMetas(cid, tags, MetaType.tag.getCode());
+        metaService.saveMetas(cid, categories, MetaType.category.getCode());
+        return Constants.SUCCESS_RESULT;
+    }
 
     public void updateMap(Integer cid) {
         Map<String, Object> fieldMap = new HashMap<>();
