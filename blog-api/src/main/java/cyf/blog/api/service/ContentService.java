@@ -53,6 +53,17 @@ public class ContentService {
         return pageInfo;
     }
 
+
+    public PageInfo<Contents> getContentsByType(Integer pageNum,Integer pageSize,Integer type) {
+        ContentsExample example = new ContentsExample();
+        example.setOrderByClause("created desc,cid");
+        example.createCriteria().andTypeEqualTo(type);
+        PageHelper.startPage(pageNum, pageSize);
+        List<Contents> contents = contentsMapper.selectByExample(example);
+        PageInfo<Contents> pageInfo = new PageInfo<>(contents);
+        return pageInfo;
+    }
+
     public Contents getContentsById(Integer cid) {
         Contents contents = contentsMapper.selectByPrimaryKey(cid);
         updateArticleHit(Constants.ARTICLE_HIT + cid, cid);

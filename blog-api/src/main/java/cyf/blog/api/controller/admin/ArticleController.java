@@ -2,7 +2,6 @@ package cyf.blog.api.controller.admin;
 
 import com.github.pagehelper.PageInfo;
 import cyf.blog.api.controller.BaseController;
-import cyf.blog.api.service.ArticleService;
 import cyf.blog.api.service.ContentService;
 import cyf.blog.api.service.MetaService;
 import cyf.blog.base.common.Constants;
@@ -36,8 +35,6 @@ public class ArticleController extends BaseController {
 
 
     @Autowired
-    private ArticleService articleService;
-    @Autowired
     private ContentService contentService;
     @Autowired
     private MetaService metaService;
@@ -57,7 +54,7 @@ public class ArticleController extends BaseController {
                         @RequestParam(value = "limit", defaultValue = "10") int limit, HttpServletRequest request) {
 
 
-        PageInfo<Contents> articles = articleService.getArticles(page, limit);
+        PageInfo<Contents> articles = contentService.getContentsByType(page, limit,ContentType.post.getCode());
         request.setAttribute("articles", articles);
         return "admin/article_list";
     }

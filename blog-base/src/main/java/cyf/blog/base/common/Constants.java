@@ -66,4 +66,9 @@ public interface Constants {
      */
      String SUCCESS_RESULT = "SUCCESS";
 
+    /**
+     * 最大获取文章条数
+     */
+     int MAX_POSTS = 9999;
+
 }
