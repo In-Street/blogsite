@@ -98,5 +98,25 @@ public class ArticleController extends BaseController {
         return Response.ok();
     }
 
+    /**
+     * 文章页(预览)
+     *
+     * @param request 请求
+     * @param cid     文章主键
+     * @return
+     */
+    @GetMapping(value = {"/preview/{cid}", "article/{cid}.html"})
+    public String articlePreview(HttpServletRequest request, @PathVariable String cid) {
+        Contents contents = contentService.getContentsById(Integer.valueOf(cid));
+        if (null == contents) {
+            return this.render_404();
+        }
+        request.setAttribute("article", contents);
+        request.setAttribute("is_post", true);
+//        completeArticle(request, contents);
+        return this.render("post");
+
+
+    }
 
 }

@@ -88,7 +88,7 @@ public class ContentService {
      * @param key
      * @param cid 文章id
      */
-    private void updateArticleHit(String key, Integer cid) {
+    public void updateArticleHit(String key, Integer cid) {
         Long increment = stringRedisTemplate.opsForValue().increment(key, 1);
         //超过阀值更新数据库
         if (increment == Constants.ARTICLE_MAX_HIT) {
