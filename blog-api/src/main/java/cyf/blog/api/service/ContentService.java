@@ -2,9 +2,11 @@ package cyf.blog.api.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.vdurmont.emoji.EmojiParser;
 import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
+import cyf.blog.base.enums.db.MetaType;
 import cyf.blog.dao.mapper.ContentsMapper;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.ContentsExample;
@@ -33,6 +35,8 @@ public class ContentService {
     private ContentsMapper contentsMapper;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private MetaService metaService;
 
     public PageInfo getContents(int pageNum, int pageSize) {
         ContentsExample example = new ContentsExample();
@@ -93,8 +97,41 @@ public class ContentService {
         }
     }
 
+    /**
+     * admin - 更新文章
+     * @param contents
+     * @return
+     */
+    public String updateArticle(Contents contents) {
+        if (null == contents) {
+            return "文章对象为空";
+        }
+        if (StringUtils.isBlank(contents.getTitle())) {
+            return "文章标题不能为空";
+        }
+        if (StringUtils.isBlank(contents.getContent())) {
+            return "文章内容不能为空";
+        }
+        int titleLength = contents.getTitle().length();
+        if (titleLength > Constants.MAX_TITLE_COUNT) {
+            return "文章标题过长";
+        }
+        int contentLength = contents.getContent().length();
+        if (contentLength > Constants.MAX_TEXT_COUNT) {
+            return "文章内容过长";
+        }
+        if (StringUtils.isBlank(contents.getSlug())) {
+            contents.setSlug(null);
+        }
 
+        Integer cid = contents.getCid();
+        contents.setContent(EmojiParser.parseToAliases(contents.getContent()));
 
+        contentsMapper.updateByPrimaryKeySelective(contents);
+        metaService.saveMetas(cid, contents.getTags(), MetaType.tag.getCode());
+        metaService.saveMetas(cid, contents.getCategories(), MetaType.category.getCode());
+        return Constants.SUCCESS_RESULT;
+    }
 
     public void updateMap(Integer cid) {
         Map<String, Object> fieldMap = new HashMap<>();

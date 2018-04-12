@@ -51,5 +51,19 @@ public interface Constants {
     String LOGRECORD_OPERATE_TYPE = "logrecord_operate_type";
     String LOGRECORD_OPERATE_OBJECT = "logrecord_operate_object";
 
+    /**
+     * 文章标题最多可以输入的文字个数
+     */
+     int MAX_TITLE_COUNT = 200;
+
+    /**
+     * 文章最多可以输入的文字数
+     */
+    int MAX_TEXT_COUNT = 200000;
+
+    /**
+     * 成功返回
+     */
+     String SUCCESS_RESULT = "SUCCESS";
 
 }

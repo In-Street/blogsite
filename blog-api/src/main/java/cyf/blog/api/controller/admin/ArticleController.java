@@ -5,6 +5,7 @@ import cyf.blog.api.controller.BaseController;
 import cyf.blog.api.service.ArticleService;
 import cyf.blog.api.service.ContentService;
 import cyf.blog.api.service.MetaService;
+import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.db.ContentType;
 import cyf.blog.base.enums.db.MetaType;
 import cyf.blog.base.model.Response;
@@ -78,14 +79,20 @@ public class ArticleController extends BaseController {
         return "admin/article_edit";
     }
 
+    /**
+     * 文章编辑
+     * @param contents
+     * @param request
+     * @return
+     */
     @PostMapping(value = "/modify")
     @ResponseBody
     public Response modifyArticle(Contents contents, HttpServletRequest request) {
         Users loginUser = getLoginUser(stringRedisTemplate, request);
         contents.setAuthorId(loginUser.getUid());
         contents.setType(ContentType.post.getCode());
-        String result = contentsService.updateArticle(contents);
-        if (!WebConst.SUCCESS_RESULT.equals(result)) {
+        String result = contentService.updateArticle(contents);
+        if (!Constants.SUCCESS_RESULT.equals(result)) {
             return Response.fail(result);
         }
         return Response.ok();
