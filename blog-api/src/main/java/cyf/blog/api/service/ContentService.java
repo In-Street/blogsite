@@ -8,8 +8,11 @@ import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
 import cyf.blog.base.enums.db.MetaType;
 import cyf.blog.dao.mapper.ContentsMapper;
+import cyf.blog.dao.mapper.RelationshipsMapper;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.ContentsExample;
+import cyf.blog.dao.model.RelationshipsExample;
+import cyf.blog.dao.model.RelationshipsKey;
 import cyf.blog.util.TextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +25,8 @@ import org.springframework.util.CollectionUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 首页文章列表、文章详情
@@ -41,6 +46,8 @@ public class ContentService {
     private MetaService metaService;
     @Autowired
     private RelationshipService relationshipService;
+    @Autowired
+    private RelationshipsMapper relationshipsMapper;
 
 
     public PageInfo getContents(int pageNum, int pageSize) {
@@ -94,6 +101,13 @@ public class ContentService {
         List<Contents> contents = contentsMapper.selectByExample(example);
         PageInfo<Contents> pageInfo = new PageInfo<>(contents);
         return pageInfo;
+    }
+
+    public List<Contents> getContentsByCids(List<Integer> cids) {
+        ContentsExample example = new ContentsExample();
+        example.createCriteria().andCidIn(cids);
+        List<Contents> contents = contentsMapper.selectByExample(example);
+        return contents;
     }
 
 
@@ -213,6 +227,37 @@ public class ContentService {
         metaService.saveMetas(cid, tags, MetaType.tag.getCode());
         metaService.saveMetas(cid, categories, MetaType.category.getCode());
         return Constants.SUCCESS_RESULT;
+    }
+
+    /**
+     * 后台修改分类名称后对文章的分类名称进行修改
+     * @param oCategoryName
+     * @param nCategoryName
+     */
+    public void updateCategoryName(String oCategoryName,String nCategoryName,Integer mid) {
+
+        RelationshipsExample shipExample = new RelationshipsExample();
+        shipExample.createCriteria().andMidEqualTo(mid);
+        List<RelationshipsKey> keys = relationshipsMapper.selectByExample(shipExample);
+        if (CollectionUtils.isEmpty(keys)) {
+            return;
+        }
+        List<Integer> cids = keys.stream().map(RelationshipsKey::getCid).collect(Collectors.toList());
+
+        ContentsExample example = new ContentsExample();
+        example.createCriteria().andCidIn(cids);
+        List<Contents> contentsList = contentsMapper.selectByExample(example);
+        contentsList.forEach(c->{
+            Contents contents = new Contents();
+            contents.setCid(c.getCid());
+            String[] split = StringUtils.split(c.getCategories(), ",");
+            for (String s : split) {
+                if (Objects.equals(s,oCategoryName)) {
+                    contents.setCategories(StringUtils.replace(c.getCategories(),oCategoryName,nCategoryName));
+                    contentsMapper.updateByPrimaryKeySelective(contents);
+                }
+            }
+        });
     }
 
     public void updateMap(Integer cid) {

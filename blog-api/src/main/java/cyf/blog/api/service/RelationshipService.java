@@ -2,9 +2,12 @@ package cyf.blog.api.service;
 
 import cyf.blog.dao.mapper.RelationshipsMapper;
 import cyf.blog.dao.model.RelationshipsExample;
+import cyf.blog.dao.model.RelationshipsKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Cheng Yufei
@@ -29,4 +32,19 @@ public class RelationshipService {
         example.createCriteria().andCidEqualTo(cid);
         relationshipsMapper.deleteByExample(example);
     }
+
+    public void deleteByMid(Integer mid) {
+        RelationshipsExample example = new RelationshipsExample();
+        example.createCriteria().andMidEqualTo(mid);
+        relationshipsMapper.deleteByExample(example);
+    }
+
+    public List<RelationshipsKey> getByMid(Integer mid) {
+        RelationshipsExample example = new RelationshipsExample();
+        example.createCriteria().andMidEqualTo(mid);
+        List<RelationshipsKey> r = relationshipsMapper.selectByExample(example);
+        return r;
+    }
+
+
 }

@@ -1,5 +1,8 @@
 import cyf.blog.util.TextUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+
+import java.util.Objects;
 
 /**
  * @author Cheng Yufei
@@ -43,12 +46,29 @@ public class Test2 {
 
         Integer a = new Integer(1);
         Integer b = new Integer(1);
-        System.out.println(a==b);
+        System.out.println(a == b);
 
         Integer a1 = 128;
         Integer a2 = 128;
         System.out.println(a1.equals(a2));
 
+    }
+
+    @Test
+    public void t5() {
+        String s = "d";
+        String str = "a,b,c,d";
+        String[] split = StringUtils.split(str, ",");
+        for (int i = 0; i < split.length; i++) {
+            if (Objects.equals(s, split[i])) {
+                if (i == split.length - 1) {
+                    str = StringUtils.remove(str, "," + s);
+                } else {
+                    str = StringUtils.remove(str, s + ",");
+                }
+            }
+        }
+        System.out.println(str);
     }
 
 
