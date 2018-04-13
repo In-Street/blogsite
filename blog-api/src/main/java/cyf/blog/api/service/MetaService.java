@@ -7,12 +7,15 @@ import cyf.blog.dao.model.Metas;
 import cyf.blog.dao.model.MetasExample;
 import cyf.blog.dao.model.RelationshipsExample;
 import cyf.blog.dao.model.RelationshipsKey;
+import cyf.blog.dao.model.bo.MetasBo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -62,6 +65,29 @@ public class MetaService {
         metasExample.createCriteria().andTypeEqualTo(code);
         List<Metas> metas = metasMapper.selectByExample(metasExample);
         return metas;
+    }
+
+    public List<MetasBo> getMetas(Integer code) {
+
+        MetasExample metasExample = new MetasExample();
+        metasExample.setOrderByClause("sort desc,mid desc");
+        metasExample.createCriteria().andTypeEqualTo(code);
+        List<Metas> metas = metasMapper.selectByExample(metasExample);
+        if (CollectionUtils.isEmpty(metas)) {
+            return Collections.EMPTY_LIST;
+        }
+        List<MetasBo> bos = Lists.newArrayList();
+        RelationshipsExample relationshipsExample = new RelationshipsExample();
+        RelationshipsExample.Criteria relationCriteria = relationshipsExample.createCriteria();
+        metas.forEach(m->{
+            MetasBo bo = new MetasBo();
+            BeanUtils.copyProperties(m,bo);
+            relationCriteria.andMidEqualTo(m.getMid());
+            bo.setCount(relationshipsMapper.countByExample(relationshipsExample));
+            bos.add(bo);
+            relationCriteria.getAllCriteria().clear();
+        });
+        return bos;
     }
 
     /**

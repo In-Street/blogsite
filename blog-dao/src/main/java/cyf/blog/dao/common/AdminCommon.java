@@ -1,6 +1,7 @@
 package cyf.blog.dao.common;
 
 import cyf.blog.dao.model.Metas;
+import cyf.blog.util.Tools;
 import cyf.blog.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminCommon {
 
+
+    private static final String[] COLORS = {"default", "primary", "success", "info", "warning", "danger", "inverse", "purple", "pink"};
 
     public String random(int max,String str) {
         return UUID.random(1, max) + str;
@@ -34,5 +37,10 @@ public class AdminCommon {
             }
         }
         return false;
+    }
+
+    public static String rand_color() {
+        int r = Tools.rand(0, COLORS.length - 1);
+        return COLORS[r];
     }
 }
