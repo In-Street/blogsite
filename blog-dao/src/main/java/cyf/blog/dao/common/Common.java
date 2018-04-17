@@ -186,4 +186,19 @@ public class Common {
         String hash = TextUtil.MD5encode(email.trim().toLowerCase());
         return avatarUrl + hash + ".png";
     }
+
+    /**
+     * 截取字符串
+     *
+     * @param str
+     * @param len
+     * @return
+     */
+    public static String substr(String str, int len) {
+        if (str.length() > len) {
+            return str.substring(0, len);
+        }
+        return str;
+    }
+
 }

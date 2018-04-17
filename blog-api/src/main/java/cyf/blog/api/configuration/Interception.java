@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class Interception implements HandlerInterceptor {
     /**
      * 不拦截的静态文件
      */
-    private static String[] preHandle = new String[]{"/admin/image","/admin/js","/admin/css","/admin/plugins","/user/css","/user/img"};
+    private static String[] preHandle = new String[]{"/admin/image","/admin/js","/admin/css","/admin/plugins","/user/css","/user/img","/upload"};
 
     /**
      * 调用处理程序之前
@@ -58,7 +59,6 @@ public class Interception implements HandlerInterceptor {
             request.setAttribute(Constants.LOGRECORD_OPERATE_TYPE,operaType.getCode());
             request.setAttribute(Constants.LOGRECORD_OPERATE_OBJECT,object.getCode());
         }
-        System.out.println();
         return true;
     }
 

@@ -1,5 +1,6 @@
 package cyf.blog.api.configuration;
 
+import cyf.blog.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -31,6 +32,7 @@ public class InterceptConfig extends WebMvcConfigurationSupport{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:"+ TextUtil.getUplodFilePath()+"upload/");
         super.addResourceHandlers(registry);
     }
 }

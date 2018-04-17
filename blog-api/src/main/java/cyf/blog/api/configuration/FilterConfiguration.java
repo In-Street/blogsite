@@ -79,7 +79,8 @@ public class FilterConfiguration {
                 "/admin/page/*",
                 "/admin/category/*",
                 "/admin/links/*",
-                "/admin/setting/*"
+                "/admin/setting/*",
+                "/admin/attach/*"
         };
         registration.setEnabled(true);
         registration.addUrlPatterns(urlPattern);

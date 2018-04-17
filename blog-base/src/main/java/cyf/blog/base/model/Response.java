@@ -61,4 +61,7 @@ public class Response<T> implements Serializable {
 	public static Response fail(String msg) {
 		return new Response(false,msg);
 	}
+	public static Response fail() {
+		return new Response(false);
+	}
 }

@@ -8,13 +8,17 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.Image;
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -155,5 +159,45 @@ public class TextUtil {
         }
 
         return num;
+    }
+
+
+    public static String getFileKey(String name) {
+        String prefix = "/upload/" + DateKit.dateFormat(new Date(), "yyyy/MM");
+        if (!new File(getUplodFilePath() + prefix).exists()) {
+            new File(getUplodFilePath() + prefix).mkdirs();
+        }
+
+        name = StringUtils.trimToNull(name);
+        if (name == null) {
+            return prefix + "/" + UUID.UU32() + "." + null;
+        } else {
+            name = name.replace('\\', '/');
+            name = name.substring(name.lastIndexOf("/") + 1);
+            int index = name.lastIndexOf(".");
+            String ext = null;
+            if (index >= 0) {
+                ext = StringUtils.trimToNull(name.substring(index + 1));
+            }
+            return prefix + "/" + UUID.UU32() + "." + (ext == null ? null : (ext));
+        }
+    }
+
+    /**
+     * 判断文件是否是图片类型
+     *
+     * @param imageFile
+     * @return
+     */
+    public static boolean isImage(InputStream imageFile) {
+        try {
+            Image img = ImageIO.read(imageFile);
+            if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -75,4 +75,14 @@ public interface Constants {
 
     String CLASSPATH = TextUtil.getUplodFilePath();
 
+    /**
+     * 上传文件最大1M
+     */
+     Integer MAX_FILE_SIZE = 1048576;
+
+    /**
+     * 附件存放的URL，默认为网站地址，如集成第三方则为第三方CDN域名
+     */
+    String ATTACH_URL = "attach_url";
+
 }
