@@ -12,6 +12,7 @@ public enum OperateObject {
 
     system(1, "系统"),
     setting(2,"系统设置"),
+    attach(3,"附件")
 
     ;
 

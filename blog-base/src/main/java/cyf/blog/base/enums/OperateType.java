@@ -11,7 +11,9 @@ import lombok.Getter;
 public enum OperateType {
 
     login(1, "登录"),
-    edit_setting(2,"系统设置")
+    edit_setting(2,"系统设置"),
+    attach_del(3,"删除附件")
+
 
     ;
 

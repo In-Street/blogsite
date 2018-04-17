@@ -1,9 +1,12 @@
 package cyf.blog.api.controller.admin;
 
 import com.github.pagehelper.PageInfo;
+import cyf.blog.api.configuration.LogRecord;
 import cyf.blog.api.controller.BaseController;
 import cyf.blog.api.service.AttachService;
 import cyf.blog.base.common.Constants;
+import cyf.blog.base.enums.OperateObject;
+import cyf.blog.base.enums.OperateType;
 import cyf.blog.base.enums.db.AttachType;
 import cyf.blog.base.model.Response;
 import cyf.blog.dao.common.Common;
@@ -102,6 +105,7 @@ public class AttachController extends BaseController {
 
     @RequestMapping(value = "delete")
     @ResponseBody
+    @LogRecord(operateType = OperateType.attach_del,operateObject = OperateObject.attach)
     public Response delete(@RequestParam Integer id, HttpServletRequest request) {
         try {
             Attach attach = attachMapper.selectByPrimaryKey(id);
@@ -110,7 +114,6 @@ public class AttachController extends BaseController {
             }
             attachMapper.deleteByPrimaryKey(id);
             new File(Constants.CLASSPATH + attach.getFkey()).delete();
-//            logService.insertLog(LogActions.DEL_ARTICLE.getAction(), attach.getFkey(), request.getRemoteAddr(), this.getUid(request));
         } catch (Exception e) {
             String msg = "附件删除失败";
             log.error(msg, e);
