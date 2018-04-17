@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -26,6 +27,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @MapperScan(basePackages ="cyf.blog.dao.mapper",sqlSessionFactoryRef = "primarySqlSessionFactory")
 @Slf4j
+@Component
 public class DataSourceConfiguration {
 
     @Bean(name="primaryDataSource",destroyMethod = "close")

@@ -4,6 +4,7 @@ import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
 import cyf.blog.base.enums.db.MetaType;
+import cyf.blog.dao.configuration.DataSourceConfiguration;
 import cyf.blog.dao.mapper.AttachMapper;
 import cyf.blog.dao.mapper.ContentsMapper;
 import cyf.blog.dao.mapper.MetasMapper;
@@ -18,6 +19,7 @@ import cyf.blog.dao.model.bo.StatisticsBo;
 import cyf.blog.util.DateKit;
 import cyf.blog.util.TextUtil;
 import cyf.blog.util.ZipUtils;
+import cyf.blog.util.backup.Backup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -27,9 +29,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 站点服务：归档
@@ -47,6 +54,8 @@ public class SiteService {
     private MetasMapper metasMapper;
     @Autowired
     private AttachMapper attachMapper;
+    @Autowired
+    private DataSourceConfiguration dataSourceConfiguration;
 
     /**
      * 归档
@@ -117,9 +126,8 @@ public class SiteService {
             if (!(new File(bk_path)).isDirectory()) {
                 throw new Exception("请输入一个存在的目录");
             }
-
             String bkAttachDir = Constants.CLASSPATH + "upload";
-            String bkThemesDir = Constants.CLASSPATH + "templates/themes";
+            String bkThemesDir = Constants.CLASSPATH + "blog-api/src/main/resources/templates/themes";
 
             String fname = DateKit.dateFormat(new Date(), fmt) + "_" + TextUtil.getRandomNumber(5) + ".zip";
 
@@ -132,19 +140,19 @@ public class SiteService {
             backResponse.setAttachPath(attachPath);
             backResponse.setThemePath(themesPath);
         }
-       /* if (bk_type.equals("db")) {
+        if (bk_type.equals("db")) {
 
-            String bkAttachDir = AttachController.CLASSPATH + "upload/";
+            String bkAttachDir = Constants.CLASSPATH + "upload/";
             if (!(new File(bkAttachDir)).isDirectory()) {
                 File file = new File(bkAttachDir);
                 if (!file.exists()) {
                     file.mkdirs();
                 }
             }
-            String sqlFileName = "tale_" + DateKit.dateFormat(new Date(), fmt) + "_" + TaleUtils.getRandomNumber(5) + ".sql";
+            String sqlFileName = "tale_" + DateKit.dateFormat(new Date(), fmt) + "_" + TextUtil.getRandomNumber(5) + ".sql";
             String zipFile = sqlFileName.replace(".sql", ".zip");
 
-            Backup backup = new Backup(TaleUtils.getNewDataSource().getConnection());
+            Backup backup = new Backup(dataSourceConfiguration.primaryDataSource().getConnection());
             String sqlContent = backup.execute();
 
             File sqlFile = new File(bkAttachDir + sqlFileName);
@@ -154,7 +162,7 @@ public class SiteService {
             ZipUtils.zipFile(sqlFile.getPath(), zip);
 
             if (!sqlFile.exists()) {
-                throw new TipException("数据库备份失败");
+                throw new Exception("数据库备份失败");
             }
             sqlFile.delete();
 
@@ -167,8 +175,25 @@ public class SiteService {
                     new File(zip).delete();
                 }
             }, 10 * 1000);
-        }*/
+        }
         return backResponse;
     }
+    private void write(String data, File file, Charset charset) {
+        FileOutputStream os = null;
+        try {
+            os = new FileOutputStream(file);
+            os.write(data.getBytes(charset));
+        } catch (IOException var8) {
+            throw new IllegalStateException(var8);
+        } finally {
+            if(null != os) {
+                try {
+                    os.close();
+                } catch (IOException var2) {
+                    var2.printStackTrace();
+                }
+            }
+        }
 
+    }
 }

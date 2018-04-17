@@ -38,7 +38,7 @@ public class Response<T> implements Serializable {
 		this.status = status;
 	}
 	public Response(boolean success,T payload) {
-		this.status = status;
+		this.success = success;
 		this.payload = payload;
 	}
 
