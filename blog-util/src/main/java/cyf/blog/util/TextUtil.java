@@ -10,6 +10,8 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -115,5 +117,43 @@ public class TextUtil {
             return matcher.find();
         }
         return false;
+    }
+
+    /**
+     * 获取保存文件的位置,jar所在目录的路径
+     *
+     * @return
+     */
+    public static String getUplodFilePath() {
+        String path = TextUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        path = path.substring(1, path.length());
+        try {
+            path = java.net.URLDecoder.decode(path, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        int lastIndex = path.lastIndexOf("/") + 1;
+        path = path.substring(0, lastIndex);
+        File file = new File("");
+        return file.getAbsolutePath() + "/";
+    }
+
+    /**
+     * 随机数
+     *
+     * @param size
+     * @return
+     */
+    public static String getRandomNumber(int size) {
+        String num = "";
+
+        for (int i = 0; i < size; ++i) {
+            double a = Math.random() * 9.0D;
+            a = Math.ceil(a);
+            int randomNum = (new Double(a)).intValue();
+            num = num + randomNum;
+        }
+
+        return num;
     }
 }

@@ -42,7 +42,7 @@ public class AuthController extends BaseController {
 
     @PostMapping("/toLogin")
     @ResponseBody
-    @LogRecord(operateType = OperateType.login, operateObject = OperateObject.system)
+//    @LogRecord(operateType = OperateType.login, operateObject = OperateObject.system)
     public Response login(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) String remeber_me,
                           HttpServletRequest request, HttpServletResponse response) {
 

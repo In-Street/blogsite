@@ -1,5 +1,7 @@
 package cyf.blog.base.common;
 
+import cyf.blog.util.TextUtil;
+
 /**
  * @since 1.0
  */
@@ -70,5 +72,7 @@ public interface Constants {
      * 最大获取文章条数
      */
      int MAX_POSTS = 9999;
+
+    String CLASSPATH = TextUtil.getUplodFilePath();
 
 }

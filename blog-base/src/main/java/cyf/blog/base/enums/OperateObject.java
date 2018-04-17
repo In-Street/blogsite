@@ -11,6 +11,7 @@ import lombok.Getter;
 public enum OperateObject {
 
     system(1, "系统"),
+    setting(2,"系统设置"),
 
     ;
 

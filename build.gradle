@@ -106,6 +106,12 @@ project(':blog-dao') {
         compile project(':blog-base')
     }
 }
+
+project(':blog-base') {
+    dependencies {
+        compile project(':blog-util')
+    }
+}
 task wrapper(type: Wrapper) {
     gradleVersion = "4.4"
 }

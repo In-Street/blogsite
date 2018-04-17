@@ -1,8 +1,11 @@
 import cyf.blog.util.TextUtil;
+import jdk.nashorn.internal.ir.ContinueNode;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author Cheng Yufei
@@ -71,5 +74,36 @@ public class Test2 {
         System.out.println(str);
     }
 
+    @Test
+    public void concurrent() {
+        ConcurrentMap map = new ConcurrentHashMap();
+        map.put(1, "a");
+        map.put(2, "b");
+        map.put(3, "c");
+        ((ConcurrentHashMap) map).forEachValue(2, s -> {
+//            System.out.println(s);
+        });
+
+        ((ConcurrentHashMap) map).searchKeys(2, s -> {
+            if (s.equals(3)) {
+                return s;
+            } else {
+                return 0;
+            }
+        });
+    }
+
+    @Test
+    public void t6() {
+        StringBuilder ret = new StringBuilder();
+        String[] var3 = {"a","b","c"};
+        int var4 = var3.length;
+
+        for (int var5 = 0; var5 < var4;var5++) {
+            String item = var3[var5];
+            ret.append(',').append(item);
+        }
+        System.out.println(ret.length() > 0 ? ret.substring(1) : ret.toString());
+    }
 
 }

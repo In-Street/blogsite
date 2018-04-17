@@ -1,21 +1,32 @@
 package cyf.blog.api.service;
 
+import cyf.blog.base.common.Constants;
 import cyf.blog.base.enums.db.ContentStatus;
 import cyf.blog.base.enums.db.ContentType;
 import cyf.blog.base.enums.db.MetaType;
 import cyf.blog.dao.mapper.AttachMapper;
 import cyf.blog.dao.mapper.ContentsMapper;
 import cyf.blog.dao.mapper.MetasMapper;
-import cyf.blog.dao.model.*;
+import cyf.blog.dao.model.AttachExample;
+import cyf.blog.dao.model.Contents;
+import cyf.blog.dao.model.ContentsExample;
+import cyf.blog.dao.model.Metas;
+import cyf.blog.dao.model.MetasExample;
 import cyf.blog.dao.model.bo.ArchiveBo;
+import cyf.blog.dao.model.bo.BackResponseBo;
 import cyf.blog.dao.model.bo.StatisticsBo;
+import cyf.blog.util.DateKit;
+import cyf.blog.util.TextUtil;
+import cyf.blog.util.ZipUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -94,6 +105,70 @@ public class SiteService {
         statistics.setLinks(linkCount);
 
         return statistics;
+    }
+
+
+    public BackResponseBo backup(String bk_type, String bk_path, String fmt) throws Exception {
+        BackResponseBo backResponse = new BackResponseBo();
+        if (bk_type.equals("attach")) {
+            if (StringUtils.isBlank(bk_path)) {
+                throw new Exception("请输入备份文件存储路径");
+            }
+            if (!(new File(bk_path)).isDirectory()) {
+                throw new Exception("请输入一个存在的目录");
+            }
+
+            String bkAttachDir = Constants.CLASSPATH + "upload";
+            String bkThemesDir = Constants.CLASSPATH + "templates/themes";
+
+            String fname = DateKit.dateFormat(new Date(), fmt) + "_" + TextUtil.getRandomNumber(5) + ".zip";
+
+            String attachPath = bk_path + "/" + "attachs_" + fname;
+            String themesPath = bk_path + "/" + "themes_" + fname;
+
+            ZipUtils.zipFolder(bkAttachDir, attachPath);
+            ZipUtils.zipFolder(bkThemesDir, themesPath);
+
+            backResponse.setAttachPath(attachPath);
+            backResponse.setThemePath(themesPath);
+        }
+       /* if (bk_type.equals("db")) {
+
+            String bkAttachDir = AttachController.CLASSPATH + "upload/";
+            if (!(new File(bkAttachDir)).isDirectory()) {
+                File file = new File(bkAttachDir);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+            }
+            String sqlFileName = "tale_" + DateKit.dateFormat(new Date(), fmt) + "_" + TaleUtils.getRandomNumber(5) + ".sql";
+            String zipFile = sqlFileName.replace(".sql", ".zip");
+
+            Backup backup = new Backup(TaleUtils.getNewDataSource().getConnection());
+            String sqlContent = backup.execute();
+
+            File sqlFile = new File(bkAttachDir + sqlFileName);
+            write(sqlContent, sqlFile, Charset.forName("UTF-8"));
+
+            String zip = bkAttachDir + zipFile;
+            ZipUtils.zipFile(sqlFile.getPath(), zip);
+
+            if (!sqlFile.exists()) {
+                throw new TipException("数据库备份失败");
+            }
+            sqlFile.delete();
+
+            backResponse.setSqlPath(zipFile);
+
+            // 10秒后删除备份文件
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    new File(zip).delete();
+                }
+            }, 10 * 1000);
+        }*/
+        return backResponse;
     }
 
 }

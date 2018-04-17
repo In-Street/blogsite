@@ -29,9 +29,17 @@ public class Response<T> implements Serializable {
 	 * 请求是否成功
 	 */
 	private boolean success;
+	/**
+	 * 服务器响应数据
+	 */
+	private T payload;
 
 	public Response(HttpStatus status) {
 		this.status = status;
+	}
+	public Response(boolean success,T payload) {
+		this.status = status;
+		this.payload = payload;
 	}
 
 	public Response(boolean success,String msg) {
@@ -44,6 +52,10 @@ public class Response<T> implements Serializable {
 
 	public static Response ok() {
 		return new Response(true);
+	}
+
+	public static <T> Response ok(T payload) {
+		return new Response(true, payload);
 	}
 
 	public static Response fail(String msg) {
