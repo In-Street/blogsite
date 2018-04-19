@@ -86,7 +86,7 @@ public class AttachController extends BaseController {
                 if (multipartFile.getSize() <= Constants.MAX_FILE_SIZE) {
                     String fkey = TextUtil.getFileKey(fname);
                     String ftype = TextUtil.isImage(multipartFile.getInputStream()) ? AttachType.image.getName() : AttachType.file.getName();
-                    File file = new File(Constants.CLASSPATH + fkey);
+                    File file = new File(TextUtil.getUplodFilePath() + fkey);
                     try {
                         FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
                     } catch (IOException e) {
@@ -113,7 +113,7 @@ public class AttachController extends BaseController {
                 return Response.fail("不存在该附件");
             }
             attachMapper.deleteByPrimaryKey(id);
-            new File(Constants.CLASSPATH + attach.getFkey()).delete();
+            new File(TextUtil.getUplodFilePath() + attach.getFkey()).delete();
         } catch (Exception e) {
             String msg = "附件删除失败";
             log.error(msg, e);

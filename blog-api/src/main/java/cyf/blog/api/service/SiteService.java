@@ -126,8 +126,8 @@ public class SiteService {
             if (!(new File(bk_path)).isDirectory()) {
                 throw new Exception("请输入一个存在的目录");
             }
-            String bkAttachDir = Constants.CLASSPATH + "upload";
-            String bkThemesDir = Constants.CLASSPATH + "blog-api/src/main/resources/templates/themes";
+            String bkAttachDir = TextUtil.getUplodFilePath() + "upload";
+            String bkThemesDir = TextUtil.getUplodFilePath() + "blog-api/src/main/resources/templates/themes";
 
             String fname = DateKit.dateFormat(new Date(), fmt) + "_" + TextUtil.getRandomNumber(5) + ".zip";
 
@@ -142,7 +142,7 @@ public class SiteService {
         }
         if (bk_type.equals("db")) {
 
-            String bkAttachDir = Constants.CLASSPATH + "upload/";
+            String bkAttachDir = TextUtil.getUplodFilePath() + "upload/";
             if (!(new File(bkAttachDir)).isDirectory()) {
                 File file = new File(bkAttachDir);
                 if (!file.exists()) {
