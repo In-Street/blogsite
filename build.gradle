@@ -34,7 +34,7 @@ subprojects {
 
     def defaultEncoding = 'UTF-8'
     tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
-
+    tasks.jar.enabled = true
 
 
     springBoot {
@@ -93,16 +93,17 @@ subprojects {
 }
 
 //工程依赖配置
-project(':blog-api') {
+
+project(':blog-dao') {
     dependencies {
-        compile project(':blog-dao')
         compile project(':blog-util')
         compile project(':blog-base')
     }
 }
 
-project(':blog-dao') {
+project(':blog-api') {
     dependencies {
+        compile project(':blog-dao')
         compile project(':blog-util')
         compile project(':blog-base')
     }
