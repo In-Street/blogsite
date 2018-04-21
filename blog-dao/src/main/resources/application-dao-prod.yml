@@ -1,0 +1,30 @@
+#数据库连接   多数据源 配置
+hikari:
+  datasource:
+    primary:
+      driverClassName: com.mysql.jdbc.Driver
+      username: blog
+      password: cyf@2018
+      jdbcUrl: "jdbc:mysql://39.106.118.71:3306/blog?autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=utf-8&useSSL=false"
+      autoCommit: true
+      #连接超时5s
+      connectionTimeout:  5000
+      #空闲超时时间（10分钟）
+      idleTimeout:  600000
+      #最大存活时间 （最好设置）默认30分钟
+      maxLifetime: 1800000
+      #最大连接池大小  = ((core_count * 2) + effective_spindle_count)
+      maximumPoolSize: 10
+      minimumIdle: 5
+
+spring:
+  redis:
+    host: 39.106.118.71
+    password: 68A61C323A3452544C4AEF6296D8BD95A
+    pool:
+      max-active: 300
+      max-idle: 200
+      max-wait: 10000
+      min-idle: 20
+    port: 6380
+

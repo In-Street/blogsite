@@ -42,7 +42,9 @@ pagehelper:
 spring.profiles: dev
 spring.profiles.include: dao
 
-
+---
+spring.profiles: prod
+spring.profiles.include: dao-prod
 
 
 
