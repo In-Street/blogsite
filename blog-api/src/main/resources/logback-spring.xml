@@ -30,5 +30,19 @@
         </root>
     </springProfile>
 
+    <!-- prod环境 -->
+    <springProfile name="prod">
+
+        <logger name="cyf.blog.api" level="debug"/>
+        <logger name="cyf.blog.dao" level="debug" />
+        <!--<logger name="org.apache.ibatis.cache" level="info" />-->
+        <!--<logger name="org.apache.ibatis.executor" level="debug" />-->
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+
 </configuration>
 
