@@ -16,7 +16,7 @@
         </layout>
     </appender>
 
-    <appender name="FILE_PROD" class="ch.qos.logback.core.FileAppender">
+    <appender name="FILE_PROD" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>/data/logs/blog-api-prod.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>/data/logs/blog-api-prod-%d{yyyy-MM-dd}.log</FileNamePattern>
