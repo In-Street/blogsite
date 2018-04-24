@@ -1,16 +1,16 @@
 package cyf.blog.api.controller.admin;
 
+import cyf.blog.api.controller.BaseController;
 import cyf.blog.api.service.ContentService;
 import cyf.blog.api.service.LogService;
 import cyf.blog.api.service.SiteService;
-import cyf.blog.base.model.Response;
 import cyf.blog.dao.model.Contents;
 import cyf.blog.dao.model.Logs;
 import cyf.blog.dao.model.bo.StatisticsBo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import java.util.List;
  **/
 @Controller("IndexController")
 @RequestMapping("/admin")
-public class IndexController {
+public class IndexController extends BaseController {
 
     @Autowired
     private LogService logService;
@@ -30,6 +30,8 @@ public class IndexController {
     private ContentService contentService;
     @Autowired
     private SiteService siteService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     /**
      * 页面跳转
      * @return
@@ -50,9 +52,4 @@ public class IndexController {
         return "admin/index";
     }
 
-    @PostMapping("/profile")
-    public Response profile() {
-
-        return Response.ok();
-    }
 }

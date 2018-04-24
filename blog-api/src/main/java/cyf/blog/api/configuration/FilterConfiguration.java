@@ -80,7 +80,9 @@ public class FilterConfiguration {
                 "/admin/category/*",
                 "/admin/links/*",
                 "/admin/setting/*",
-                "/admin/attach/*"
+                "/admin/attach/*",
+                "/auth/logout",
+                "/auth/profile"
         };
         registration.setEnabled(true);
         registration.addUrlPatterns(urlPattern);

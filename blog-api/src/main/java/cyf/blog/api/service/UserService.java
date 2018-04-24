@@ -81,4 +81,15 @@ public class UserService {
         }
         throw new RuntimeException("用户名或密码错误");
     }
+
+    public int saveProfile(String screenName, String email, Integer uid) {
+        if (StringUtils.isBlank(screenName) || StringUtils.isBlank(email)) {
+            return 0;
+        }
+        Users users = new Users();
+        users.setScreenName(screenName);
+        users.setEmail(email);
+        users.setUid(uid);
+        return usersMapper.updateByPrimaryKeySelective(users);
+    }
 }
