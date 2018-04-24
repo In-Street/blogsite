@@ -16,6 +16,17 @@
         </layout>
     </appender>
 
+    <appender name="FILE_PROD" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>/data/logs/blog-api-prod.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>/data/logs/blog-api-prod-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>2</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </layout>
+    </appender>
+
     <!-- 开发环境 -->
     <springProfile name="dev">
 
@@ -27,6 +38,20 @@
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+
+    <!-- prod环境 -->
+    <springProfile name="prod">
+
+        <logger name="cyf.blog.api" level="debug"/>
+        <logger name="cyf.blog.dao" level="debug" />
+        <!--<logger name="org.apache.ibatis.cache" level="info" />-->
+        <!--<logger name="org.apache.ibatis.executor" level="debug" />-->
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE_PROD" />
         </root>
     </springProfile>
 
