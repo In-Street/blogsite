@@ -36,12 +36,6 @@ subprojects {
     tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
     tasks.jar.enabled = true
 
-
-    springBoot {
-//        executable = true
-    }
-
-
     repositories {
        /* maven { url 'http://repo.spring.io/snapshot' }
         maven { url 'http://repo.spring.io/milestone' }*/
