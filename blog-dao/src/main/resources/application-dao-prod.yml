@@ -19,7 +19,7 @@ hikari:
 
 spring:
   redis:
-    host: 39.106.118.71
-    password: 68A61C323A3452544C4AEF6296D8BD95A
+    host: 127.0.0.1
+    password: 68A61C323A3452544C4AEF6296D8BD86B
     port: 6380
 
