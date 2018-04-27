@@ -1,10 +1,12 @@
 package cyf.blog.api.controller.admin;
 
+import com.alibaba.fastjson.JSONObject;
 import cyf.blog.api.controller.BaseController;
 import cyf.blog.api.service.UserService;
 import cyf.blog.base.common.Constants;
 import cyf.blog.base.model.Response;
 import cyf.blog.dao.model.Users;
+import cyf.blog.util.TextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Cheng Yufei
@@ -97,7 +102,9 @@ public class AuthController extends BaseController {
     @ResponseBody
     public Response saveProfile(@RequestParam String screenName, @RequestParam String email, HttpServletRequest request) {
         Users users = getLoginUser(stringRedisTemplate, request);
-
+        if (Objects.isNull(users)) {
+            return Response.fail("登录信息过期，请重新登录");
+        }
         int i = userService.saveProfile(screenName, email, users.getUid());
         if (!(i > 0)) {
             return Response.fail();
@@ -105,7 +112,46 @@ public class AuthController extends BaseController {
         users.setScreenName(screenName);
         users.setEmail(email);
         String sessionId = request.getSession().getId();
-//        String s = stringRedisTemplate.opsForValue().
+        if (stringRedisTemplate.hasKey(Constants.LOGIN_SESSION_KEY + sessionId)) {
+            stringRedisTemplate.opsForValue().getAndSet(Constants.LOGIN_SESSION_KEY + sessionId, JSONObject.toJSONString(users));
+            stringRedisTemplate.expire(Constants.LOGIN_SESSION_KEY + sessionId, Constants.SESSION_LOSEEFFICACY, TimeUnit.MINUTES);
+        } else {
+            return Response.fail("登录信息过期，请重新登录");
+        }
+        return Response.ok();
+    }
+
+    @PostMapping("/password")
+    @ResponseBody
+    public Response updatePwd(@RequestParam String oldPassword, @RequestParam String password, HttpServletRequest request, HttpSession session) {
+
+        Users users = getLoginUser(stringRedisTemplate, request);
+        if (Objects.isNull(users)) {
+            return Response.fail("登录信息过期，请重新登录");
+        }
+        if (StringUtils.isBlank(oldPassword) || StringUtils.isBlank(password)) {
+            return Response.fail("填写信息不完整");
+        }
+
+        if(!Objects.equals(users.getPassword(),TextUtil.MD5encode(users.getUsername() + oldPassword))){
+            return Response.fail("旧密码不正确");
+        }
+        if (password.length() < 6 || password.length() > 14) {
+            return Response.fail("请输入6-14位密码");
+        }
+        String newPwd = TextUtil.MD5encode(users.getUsername() + password);
+        int result = userService.updatePwd(newPwd, users);
+        if (result == 0) {
+            return Response.fail("修改失败");
+        }
+        String sessionId = request.getSession().getId();
+        if (stringRedisTemplate.hasKey(Constants.LOGIN_SESSION_KEY + sessionId)) {
+            users.setPassword(newPwd);
+            stringRedisTemplate.opsForValue().getAndSet(Constants.LOGIN_SESSION_KEY + sessionId, JSONObject.toJSONString(users));
+            stringRedisTemplate.expire(Constants.LOGIN_SESSION_KEY + sessionId, Constants.SESSION_LOSEEFFICACY, TimeUnit.MINUTES);
+        } else {
+            return Response.fail("登录信息过期，请重新登录");
+        }
         return Response.ok();
     }
 }

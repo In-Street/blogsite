@@ -58,6 +58,7 @@ public class UserService {
         List<Users> users = usersMapper.selectByExample(usersExample);
 
         if (!CollectionUtils.isEmpty(users)) {
+            //删除密码输key
             stringRedisTemplate.delete(key);
             stringRedisTemplate.opsForValue().set(Constants.LOGIN_SESSION_KEY + sessionId, JSONObject.toJSONString(users.get(0)), Constants.SESSION_LOSEEFFICACY, TimeUnit.MINUTES);
             return users.get(0);
@@ -91,5 +92,13 @@ public class UserService {
         users.setEmail(email);
         users.setUid(uid);
         return usersMapper.updateByPrimaryKeySelective(users);
+    }
+
+    public int updatePwd(String newPwd ,Users users) {
+
+        Users newUser = new Users();
+        newUser.setUid(users.getUid());
+        newUser.setPassword(newPwd);
+        return usersMapper.updateByPrimaryKeySelective(newUser);
     }
 }
